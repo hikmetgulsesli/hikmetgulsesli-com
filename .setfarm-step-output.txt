@@ -1,6 +1,6 @@
 STATUS: done
 BUILD_CMD: npm run build
-TEST_CMD: 
+TEST_CMD: (none)
 LINT_CMD: npm run lint
-CI_NOTES: Next.js 16.2.1 with Turbopack. Build succeeds. Lint passes with 0 errors. ESLint config uses nextjs/core-web-vitals + typescript rules.
+CI_NOTES: Build baseline established with Next.js 16.2.1, Turbopack, React 19. Lint configured via eslint-config-next.
 BASELINE: success
