@@ -1,0 +1,554 @@
+{
+  "status": "done",
+  "stories": [
+    {
+      "id": "US-001",
+      "title": "Project setup, design tokens, and shared types",
+      "description": "Initialize Next.js 14 project with TypeScript, Tailwind CSS, and shadcn/ui. Set up design tokens from Stitch design-tokens.json as CSS variables and Tailwind config. Configure fonts (Space Grotesk, Inter, JetBrains Mono) via next/font/google. Create shared TypeScript types (Project, BlogPost, Author, Experience, Skill, ContactFormData, etc.). Create lib/utils.ts with cn() helper. Set up package.json scripts for dev/build/typecheck/lint.",
+      "acceptanceCriteria": [
+        "Next.js 14 app builds successfully with 'npm run build'",
+        "Tailwind config uses design tokens from Stitch as CSS variables and tailwind theme extension",
+        "Fonts load correctly via next/font/google (Space Grotesk, Inter, JetBrains Mono)",
+        "All shared TypeScript interfaces are defined in lib/types.ts",
+        "cn() utility in lib/utils.ts works with tailwind-merge and clsx",
+        "shadcn/ui is configured and CLI is available",
+        "Typecheck passes with no errors",
+        "ESLint passes with no errors"
+      ],
+      "depends_on": [],
+      "screens": [],
+      "testCriteria": "No tests required for project setup. Verify build succeeds."
+    },
+    {
+      "id": "US-002",
+      "title": "Global layout components (Header, Footer, Navigation)",
+      "description": "Implement the global shell of the site: Header (desktop fixed nav + mobile hamburger overlay), Footer (4-column layout with about snippet, quick links, social, copyright), and Navigation components. Header uses backdrop-blur with ghost border on scroll. Mobile nav is full-screen overlay with 44x44px hamburger. Footer uses surface-container bg with ghost border top. Nav links: Ana Sayfa (/), Projeler (/projects), Blog (/blog), Hakkında (/about), Iletisim (/contact).",
+      "acceptanceCriteria": [
+        "Header is fixed at top, 64px height, with backdrop-blur background",
+        "Desktop header shows logo (left), nav links (center), social icons (right)",
+        "Mobile header shows logo + hamburger button (44x44px)",
+        "Mobile menu is full-screen overlay with nav links as vertical stack (text-2xl)",
+        "Active nav link shows text-primary with persistent underline",
+        "Hover nav link shows text-primary with animated underline (left to right)",
+        "Footer renders 4 sections: about snippet, quick_links (// quick_links terminal style), social icons, copyright",
+        "Footer uses surface-container background with ghost border top",
+        "Site logo links to '/' with gradient text styling",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001"
+      ],
+      "screens": [
+        "0da9a09fb1e44e77824f0b81fe565023",
+        "51b4e4fe81134726a68bfde925028f6d",
+        "6179c8995f1c4f3b9d442717d40735dc",
+        "9a31eab4d152451399485299e1a65cf3",
+        "0539313873cb412d9d0b86ff0961a9ef"
+      ],
+      "testCriteria": "Tests for Header navigation links pass; tests for Footer sections pass"
+    },
+    {
+      "id": "US-003",
+      "title": "UI component library (Button, Card, Badge, Input, StatusIndicator, Toast, SkeletonLoader)",
+      "description": "Build all foundational UI components used throughout the site. Button: primary (bg-primary, white text), secondary (ghost border, primary text), ghost (transparent, secondary text), destructive (error bg). Sizes: sm/md/lg/icon. Card: surface-container bg, ghost border (no solid 1px borders), hover: border-primary glow + translateY(-2px). Badge: variants for default/primary/secondary/success/warning/error. Input/Textarea: bg-surface-container, ghost border, focus:border-primary. StatusIndicator: online/offline/busy/away with ping/pulse animations. Toast: bottom-right desktop, variants (default/success/error/warning/info), max 3 visible. SkeletonLoader: pulse/wave animation variants.",
+      "acceptanceCriteria": [
+        "Button renders all 4 variants with correct styling and hover/active states",
+        "Button supports sm (32px), md (40px), lg (48px), icon (40px square) sizes",
+        "Button loading state shows spinner and disables interaction",
+        "Card uses surface-container background with ghost border (outline at 10-20% opacity, not solid 1px)",
+        "Card interactive variant shows border-primary glow + translateY(-2px) on hover",
+        "Badge renders all variants with correct background/text colors",
+        "Input shows ghost border, focus:border-primary ring on focus, error state with border-error",
+        "Textarea auto-resizes and shows character count when maxLength is set",
+        "StatusIndicator shows ping animation for online, pulse for busy",
+        "Toast appears bottom-right, stacks up to 3, auto-dismisses after 5000ms",
+        "SkeletonLoader shows shimmer wave animation",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001"
+      ],
+      "screens": [],
+      "testCriteria": "Tests for Button component pass; tests for Card hover states pass"
+    },
+    {
+      "id": "US-004",
+      "title": "Shared layout components (Modal, Tabs, Accordion, Avatar, Lightbox)",
+      "description": "Implement overlay/interactive components used across multiple pages. Modal/Dialog: surface-container bg, ghost border, backdrop-blur overlay, fade+scale animation, mobile full-screen. Tabs: bottom-border active indicator, primary color for active tab, smooth content transition. Accordion: single/multiple mode, height animation, ghost border. Avatar: circular with fallback to initials, status indicator positioned bottom-right, size variants xs/sm/md/lg/xl/2xl. Image with Lightbox: click opens full-screen overlay, arrow key/swipe navigation, zoom, Escape to close.",
+      "acceptanceCriteria": [
+        "Modal renders with backdrop-blur overlay, fade+scale animation (0.95 to 1)",
+        "Modal mobile variant is full-screen with no border-radius",
+        "Tabs show active indicator as bottom-border-2 in primary color",
+        "Tabs trigger hover shows text-primary",
+        "Accordion expands/collapses height smoothly (200ms ease-out)",
+        "Avatar shows initials fallback when src fails to load",
+        "Avatar renders status indicator (online/offline/busy/away) at bottom-right",
+        "Avatar scales to all 6 sizes: xs(24px), sm(32px), md(40px), lg(56px), xl(80px), 2xl(128px)",
+        "Lightbox opens on image click, closes on Escape/click-outside/close button",
+        "Lightbox supports arrow key and swipe navigation between images",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-003"
+      ],
+      "screens": [],
+      "testCriteria": "Tests for Modal open/close pass; tests for Tabs selection pass"
+    },
+    {
+      "id": "US-005",
+      "title": "Home page (Ana Sayfa)",
+      "description": "Implement the Ana Sayfa (/) with all its sections. Hero: Terminal-prefix greeting ('> Merhaba, ben Hikmet_' in monospace), animated typing effect cycling through roles ('Full-Stack Developer', 'UI/UX Designer', 'Problem Solver'), gradient text on main heading (bg-gradient-to-r from-primary to-accent), CTA buttons ('Hakkimda Bilgi Al' primary, 'Projeleri Gor' secondary), status badge with ping animation ('Available for work'), social icons row (LinkedIn, GitHub, Twitter/X with hover scale-110). Featured Projects: section header '// featured_projects' in terminal style, 3-column responsive grid (3 desktop / 2 tablet / 1 mobile), max 6 projects, each card has thumbnail + title + short description + tech pills + hover effects. Recent Writing: section header '// recent_writing', 3-column grid (mobile horizontal scroll), max 3 posts, each card has date + title + excerpt (2 lines) + read time. CTA Section: gradient border effect, centered text, primary 'Iletisime Gec' button. Loading: skeleton shimmer for all sections.",
+      "acceptanceCriteria": [
+        "Hero renders terminal-prefix greeting in JetBrains Mono",
+        "Typing animation cycles through 3 role strings at 80ms per character",
+        "Main heading uses gradient text (primary to accent)",
+        "Status badge shows ping animation in primary color",
+        "Social icons hover: scale-110 with color transition to primary",
+        "Featured projects grid shows max 6 project cards",
+        "Project cards show thumbnail, title, description (2 lines), tech pills",
+        "Project cards hover: border-primary glow + translateY(-4px) + shadow-lg",
+        "Recent writing section shows max 3 blog posts",
+        "Blog post cards show date (muted), title (bold), excerpt (2 lines), read time",
+        "Blog post cards hover: border-color transition to primary",
+        "CTA section has gradient border effect",
+        "All sections show skeleton shimmer on loading state",
+        "Page is responsive across all breakpoints",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-002",
+        "US-003"
+      ],
+      "screens": [
+        "0da9a09fb1e44e77824f0b81fe565023"
+      ],
+      "testCriteria": "Tests for Hero typing animation pass; tests for ProjectCard hover effects pass"
+    },
+    {
+      "id": "US-006",
+      "title": "Projects listing page (/projects)",
+      "description": "Implement the Projeler (/projects) page with filtering, search, and responsive project grid. Sticky filter bar below header with categories (Tumu, Web, Mobil, Acik Kaynak, Freelance). Active filter: bg-primary, text-white. Hover: bg-background-subtle. Search trigger via Cmd+K command palette. Project cards: 16:9 thumbnail, title, description (2 lines), tech stack pills (bg-background-subtle, full border-radius), GitHub + Demo links. Card hover: border-primary glow, translateY(-4px), shadow-lg. Card uses ghost border style (no solid 1px border). Grid: 3-column desktop, 2-column tablet, 1-column mobile. Pagination at bottom. Loading: 6 skeleton cards with shimmer. Empty: 'Filtreleme ile eslesen proje bulunamadi'. Error: error message + retry button.",
+      "acceptanceCriteria": [
+        "Page header shows title and description",
+        "Filter bar is sticky below header on scroll",
+        "Category filter pills: Tumu, Web, Mobil, Acik Kaynak, Freelance",
+        "Active filter pill: bg-primary, text-white",
+        "Hover filter pill: bg-background-subtle",
+        "Project grid is responsive: 3-col desktop, 2-col tablet, 1-col mobile",
+        "Project card shows 16:9 thumbnail with object-cover",
+        "Project card shows title, description (2 lines max, truncate), tech pills",
+        "Project card hover: border-primary glow, translateY(-4px), shadow-lg",
+        "Tech pills use bg-background-subtle with full border-radius",
+        "Card shows GitHub and Demo links at bottom",
+        "Pagination shows page numbers with prev/next",
+        "Loading state: 6 skeleton cards with shimmer animation",
+        "Empty state: 'Filtreleme ile eslesen proje bulunamadi' with illustration",
+        "Error state: error message + retry button",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-002",
+        "US-003"
+      ],
+      "screens": [
+        "51b4e4fe81134726a68bfde925028f6d"
+      ],
+      "testCriteria": "Tests for filter bar category selection pass; tests for project card rendering pass"
+    },
+    {
+      "id": "US-007",
+      "title": "Project detail page (/projects/[slug])",
+      "description": "Implement the Proje Detay (/projects/[slug]) page for individual project display. Full-width hero thumbnail (max-height 500px). Content container max-width 800px centered. Sticky sidebar (desktop) with table of contents + action buttons (GitHub, Demo). Sections: (1) Project header: title, date, client (if freelance), (2) Overview: problem statement, solution, impact, (3) Tech stack: icons + names grid, (4) Gallery: screenshot carousel (if applicable), (5) Challenges & Solutions: accordion or timeline, (6) Links: GitHub repo, Live demo, (7) Next/Prev project navigation. Code blocks: bg-#0d0d12, JetBrains Mono, syntax highlighting, copy button top-right. Loading: content skeleton + sidebar skeleton. Not Found: 404 page. Draft: 'Bu proje henuz yayinlanmadi' overlay.",
+      "acceptanceCriteria": [
+        "Hero thumbnail renders full-width with max-height 500px, object-cover",
+        "Content area is max-width 800px and centered",
+        "Sidebar is sticky on desktop, hidden on mobile",
+        "Table of contents in sidebar highlights current section on scroll",
+        "Project header shows title, date, client (if freelance)",
+        "Overview section renders problem/solution/impact as structured content",
+        "Tech stack items render with icons and names in a grid",
+        "Gallery carousel shows screenshots with prev/next navigation",
+        "Carousel supports arrow key navigation and swipe gestures",
+        "Challenges & Solutions renders as accordion with expand/collapse",
+        "Code blocks use JetBrains Mono, bg-#0d0d12, syntax highlighting",
+        "Code blocks show copy button top-right that copies to clipboard",
+        "Links section shows GitHub and Live Demo buttons",
+        "Next/Prev navigation allows cycling through projects",
+        "Loading state: content skeleton + sidebar skeleton",
+        "Not Found state: 404 page with project suggestion",
+        "Draft state: 'Bu proje henuz yayinlanmadi' overlay",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-002",
+        "US-003",
+        "US-004",
+        "US-005"
+      ],
+      "screens": [
+        "901b07591d984879a0f28a7e1279825b"
+      ],
+      "testCriteria": "Tests for project detail rendering pass; tests for code block copy button pass"
+    },
+    {
+      "id": "US-008",
+      "title": "Blog listing page (/blog)",
+      "description": "Implement the Blog (/blog) page with search, category filter, and article grid. Header: 'Writing' title + description. Search bar + category filter (same style as projects). Categories: Tumu, Teknik, Career, Kisisel, Tutorial. Featured article: full-width card at top if pinned. Article cards in 2-column grid (desktop), 1-column (mobile). Each card: date (muted), title (bold), excerpt (2 lines), category badges, read time. Card hover: border-primary, bg-background-elevated. Pagination at bottom. Loading: 4 skeleton cards. Empty: 'Henuz yazi yok' illustration. No Results: 'Aramaniza uygun yazi bulunamadi' + clear filters.",
+      "acceptanceCriteria": [
+        "Page header renders 'Writing' title with description",
+        "Search bar triggers with focus state (border-primary)",
+        "Category filter pills: Tumu, Teknik, Career, Kisisel, Tutorial",
+        "Featured (pinned) article renders as full-width card at top",
+        "Article grid: 2-column desktop, 1-column mobile",
+        "Article card shows date in muted text, title bold, excerpt (2 lines)",
+        "Article card shows category badges and read time",
+        "Article card hover: border-primary, bg-background-elevated",
+        "Pagination shows page numbers with prev/next",
+        "Loading state: 4 skeleton cards with shimmer",
+        "Empty state: 'Henuz yazi yok' with illustration",
+        "No Results state: 'Aramaniza uygun yazi bulunamadi' + clear filters button",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-002",
+        "US-003"
+      ],
+      "screens": [
+        "6179c8995f1c4f3b9d442717d40735dc"
+      ],
+      "testCriteria": "Tests for blog filter categories pass; tests for article card rendering pass"
+    },
+    {
+      "id": "US-009",
+      "title": "Blog detail page (/blog/[slug])",
+      "description": "Implement the Blog Detay (/blog/[slug]) page for individual article reading. Max-width 720px content (optimal reading). Header: title (display size), date, author, read time, categories. Featured image: full-width max-height 400px, object-cover. Article body: prose styling with Space Grotesk headings, Inter body, JetBrains Mono code. TOC: sticky sidebar desktop (highlights current section), collapsible on mobile. Share buttons: Twitter, LinkedIn, Copy link. Footer: tags list with hover effects, author bio card (same as About card), related articles (2-3 based on category/tags). Code blocks: bg-#0d0d12, JetBrains Mono, copy button. Blockquote: border-l-4 border-primary. Loading: article skeleton with TOC skeleton. Not Found: 404 with search suggestions. Draft: password protected view option.",
+      "acceptanceCriteria": [
+        "Content area is max-width 720px centered",
+        "Article header shows title (display size), date, author, read time, categories",
+        "Featured image renders full-width with max-height 400px, object-cover",
+        "Prose typography: h2 (text-2xl, font-bold, primary color), h3 (text-xl), p (text-lg, line-height 1.8)",
+        "Inline code: bg-background-subtle, px-2 py-1, rounded, JetBrains Mono",
+        "Code blocks: bg-#0d0d12, p-4, rounded-lg, overflow-x-auto, JetBrains Mono",
+        "Code blocks have copy button top-right that copies to clipboard",
+        "Blockquote: border-l-4 border-primary, pl-6, italic",
+        "TOC sidebar is sticky on desktop and highlights current section on scroll",
+        "TOC is collapsible on mobile (accordion style)",
+        "Share buttons: Twitter, LinkedIn, Copy link all functional",
+        "Copy link shows toast confirmation 'Link kopyalandi'",
+        "Author bio card renders with avatar, name, title, bio",
+        "Related articles section shows 2-3 articles based on category/tags",
+        "Tags render as clickable badges with hover effects",
+        "Loading state: article skeleton + TOC skeleton",
+        "Not Found state: 404 with search suggestions",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-002",
+        "US-003",
+        "US-004"
+      ],
+      "screens": [
+        "ffd88b8781484c53936ffd6726b509ee"
+      ],
+      "testCriteria": "Tests for prose typography rendering pass; tests for TOC highlighting pass"
+    },
+    {
+      "id": "US-010",
+      "title": "About page (/about)",
+      "description": "Implement the Hakkinda (/about) page with profile, experience timeline, and skills grid. Profile section: circular avatar (200px, primary border, glow on hover), gradient name (display size), title (h3, secondary), short bio (body, max-width 600px), availability status toggle. Experience Timeline: vertical line (2px, primary at 30% opacity), items alternating left/right desktop / stacked mobile. Each item: date badge, title, description, company. Current item highlighted with primary border. Animation: fade-in + slide-up on scroll (staggered). Skills Grid: categories (Frontend, Backend, Database, DevOps, Tools, Soft Skills), each skill shows icon + name + proficiency bar (bg-background-subtle fill bg-primary, animated on view). Proficiency bar shows percentage tooltip on hover. CV download button. Loading: profile skeleton + timeline skeleton.",
+      "acceptanceCriteria": [
+        "Avatar renders circular, 200px, with 4px primary border",
+        "Avatar glows on hover with shadow-glow-primary",
+        "Name uses display size and gradient text (primary to accent)",
+        "Title shows in h3 with secondary text color",
+        "Bio text is body size with max-width 600px",
+        "Availability status badge shows green dot + status text",
+        "Timeline vertical line uses primary color at 30% opacity",
+        "Timeline items alternate left/right on desktop, stack on mobile",
+        "Timeline items show date badge, title, company, description",
+        "Current (ongoing) item is highlighted with primary border",
+        "Timeline items animate: fade-in + slide-up on scroll (staggered 100ms)",
+        "Skills grid shows all 6 categories",
+        "Skill items show icon + name + proficiency bar",
+        "Proficiency bar fill animates when scrolled into view",
+        "Proficiency tooltip shows percentage on hover",
+        "CV download button is primary style and triggers download",
+        "Loading state: profile skeleton + timeline skeleton",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-002",
+        "US-003"
+      ],
+      "screens": [
+        "9a31eab4d152451399485299e1a65cf3"
+      ],
+      "testCriteria": "Tests for timeline scroll animation pass; tests for skills proficiency bar animation pass"
+    },
+    {
+      "id": "US-011",
+      "title": "Contact page (/contact) with form and API route",
+      "description": "Implement the Iletisim (/contact) page with split layout form and info section. Form fields: firstName, lastName, email, subject (text), message (textarea). Real-time validation on blur. Validation rules: firstName/lastName (2-50 chars, letters only), email (valid format), subject (5-200 chars), message (20-2000 chars). Submit button: bg-primary, hover:bg-primary-hover, text-white. Info section: email (mailto link), location ('Turkiye', Europe/Istanbul), social links (same as hero), availability status (green dot + 'Su an musaitim' / 'Musait degilim'). API route POST /api/contact: validates ContactFormData, rate limit 5 req/hour/IP, returns { success, id }. Form states: idle, validating, submitting (button loading), success (toast + form reset + thank you message), error (toast + inline errors + retry).",
+      "acceptanceCriteria": [
+        "Split layout: form (left) + info (right) on desktop, single column on mobile",
+        "Form fields: firstName, lastName, email, subject, message (textarea)",
+        "Real-time validation triggers on blur for each field",
+        "Validation: firstName/lastName 2-50 chars, letters only",
+        "Validation: email must be valid email format",
+        "Validation: subject 5-200 chars, message 20-2000 chars",
+        "Error messages display inline below each field with text-error",
+        "Submit button: bg-primary, hover:bg-primary-hover, text-white",
+        "Submitting state: button shows spinner, form is disabled",
+        "Success state: toast notification + form reset + 'Mesajiniz iletildi, tesekkurler!' message",
+        "Error state: error toast + inline errors + retry option",
+        "Info section shows email as mailto link with icon",
+        "Info section shows 'Turkiye' + 'Europe/Istanbul' timezone",
+        "Info section shows social links with hover effects",
+        "Info section shows availability status with colored dot",
+        "POST /api/contact validates all fields with Zod schema",
+        "POST /api/contact rate limited: 5 requests per hour per IP",
+        "POST /api/contact returns { success: true, id: string } on success",
+        "POST /api/contact returns 400 with error details on validation failure",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-002",
+        "US-003"
+      ],
+      "screens": [
+        "0539313873cb412d9d0b86ff0961a9ef"
+      ],
+      "testCriteria": "Tests for contact form validation pass; tests for POST /api/contact pass"
+    },
+    {
+      "id": "US-012",
+      "title": "Command Palette (Cmd+K search) and Cursor Glow Effect",
+      "description": "Implement two interactive global features. Command Palette: triggered by Cmd+K (Mac) / Ctrl+K (Windows), 560px max width modal overlay, groups with section headers (Navigation, Recent, Projects, Blog posts), keyboard navigation (arrow keys, Enter, Escape), search debounce 300ms, recent searches stored in localStorage. Command items show label, description (optional), icon (optional). Items navigate to URLs or trigger actions. Cursor Glow Effect: radial gradient following cursor, primary (#10b981) at 15% opacity, 300px radius, screen blend mode, disabled on mobile/touch devices, smooth interpolation (lerp factor 0.1) with Framer Motion useSpring.",
+      "acceptanceCriteria": [
+        "Command palette opens with Cmd+K on Mac / Ctrl+K on Windows",
+        "Command palette shows groups: Navigation, Recent, Projects, Blog",
+        "Keyboard navigation works: Arrow Up/Down to move, Enter to select, Escape to close",
+        "Search debounces at 300ms before filtering results",
+        "Recent searches persist in localStorage and appear in Recent group",
+        "Clicking item navigates to URL or triggers action",
+        "Command palette closes after selection or on Escape",
+        "Cursor glow effect follows mouse with smooth lerp (factor 0.1)",
+        "Cursor glow uses radial gradient, primary at 15% opacity, 300px radius",
+        "Cursor glow uses screen blend mode",
+        "Cursor glow is disabled on mobile/touch devices (prefers-reduced-motion or touch detected)",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-002",
+        "US-003",
+        "US-004"
+      ],
+      "screens": [],
+      "testCriteria": "Tests for Command Palette keyboard navigation pass; tests for cursor glow rendering pass"
+    },
+    {
+      "id": "US-013",
+      "title": "SEO, metadata, sitemap, and 404 page",
+      "description": "Implement SEO infrastructure and error pages. Default SEO: title template '%s | Hikmet Gulesli', OpenGraph website type with tr_TR locale, Twitter Card summary_large_image, JSON-LD Person schema. Page-specific SEO: Blog posts get Article schema with publishedTime, author, tags; Projects get Article schema with thumbnail. Sitemap: generates /sitemap.xml with all static routes (/, /projects, /blog, /about, /contact) and dynamic routes for project/blog slugs. robots.txt: allow all except /api/. 404 page: custom not-found.tsx with navigation suggestions, recent posts, search prompt. Error boundary: error.tsx with retry button and report option.",
+      "acceptanceCriteria": [
+        "Root layout applies default SEO metadata to all pages",
+        "Blog posts include Article JSON-LD schema with author and publishedTime",
+        "Projects include Article JSON-LD schema with thumbnail",
+        "Person JSON-LD schema is in root layout",
+        "Sitemap generates all static and dynamic routes",
+        "robots.txt allows all except /api/ and /_next/",
+        "Custom 404 page shows 'Sayfa bulunamadi' message",
+        "404 page includes navigation links to main pages",
+        "404 page shows recent posts/projects as suggestions",
+        "Error boundary catches errors and shows retry button",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001",
+        "US-005",
+        "US-006",
+        "US-008"
+      ],
+      "screens": [],
+      "testCriteria": "Tests for sitemap generation pass; tests for 404 page rendering pass"
+    },
+    {
+      "id": "US-014",
+      "title": "MDX content system and sample data",
+      "description": "Set up MDX content processing with next-mdx-remote for blog posts and projects. Create content/blog/ and content/projects/ directories with sample MDX files. Blog MDX: frontmatter (title, excerpt, category, tags, readTime, publishedAt, featuredImage), body with prose content. Project MDX: frontmatter (title, shortDescription, category, techStack, liveUrl, githubUrl, featured, publishedAt, status, thumbnail, images, challenges, solutions, results, client, duration). Create lib/mdx.ts utilities: getPostBySlug, getAllPosts, getPostsByCategory, getFeaturedPost, getProjectBySlug, getAllProjects, getFeaturedProjects. Create sample blog posts (3 posts: one Teknik, one Career, one Tutorial) and sample projects (3 projects: Vesta Dashboard, and 2 others) with realistic Turkish content.",
+      "acceptanceCriteria": [
+        "MDX files in content/blog/ parse correctly with frontmatter",
+        "MDX files in content/projects/ parse correctly with frontmatter",
+        "lib/mdx.ts exports getPostBySlug(slug) returns BlogPost or null",
+        "lib/mdx.ts exports getAllPosts() returns all published BlogPosts sorted by date",
+        "lib/mdx.ts exports getPostsByCategory(category) filters correctly",
+        "lib/mdx.ts exports getFeaturedPost() returns pinned or first featured post",
+        "lib/mdx.ts exports getProjectBySlug(slug) returns Project or null",
+        "lib/mdx.ts exports getAllProjects() returns all published Projects",
+        "lib/mdx.ts exports getFeaturedProjects(limit) returns featured projects",
+        "At least 3 sample blog posts exist: Teknik, Career, Tutorial categories",
+        "At least 3 sample projects exist: Vesta Dashboard (web/freelance), plus 2 others",
+        "Blog post MDX includes: title, excerpt, category, tags, readTime, publishedAt, featuredImage, author, featured, pinned",
+        "Project MDX includes: title, shortDescription, category, techStack, liveUrl, githubUrl, featured, publishedAt, status, thumbnail, images, challenges, solutions, results, client, duration",
+        "Typecheck passes"
+      ],
+      "depends_on": [
+        "US-001"
+      ],
+      "screens": [],
+      "testCriteria": "Tests for MDX parsing pass; tests for lib/mdx.ts functions pass"
+    },
+    {
+      "id": "US-015",
+      "title": "Integration wiring and end-to-end verification",
+      "description": "Wire all components into their pages, verify all routes are navigable, remove dead code, and ensure no placeholder text remains. This is the final integration story that depends on all previous stories. Verify: all components from src/components/ are imported and rendered in their pages; all routes (/, /projects, /projects/[slug], /blog, /blog/[slug], /about, /contact) are navigable; all interactive elements (buttons, forms, links) trigger real functionality; no placeholder text ('Yakinda', 'TODO', 'Coming soon', etc.) remains; window __NEXT_DATA__ or page state transitions work end-to-end; single source of truth for shared state (Header/Footer/navigation); all MDX content renders correctly; SEO metadata is set per page; no orphan/dead code files from previous stories remain.",
+      "acceptanceCriteria": [
+        "All page components import and render their section components",
+        "All routes (/, /projects, /projects/[slug], /blog, /blog/[slug], /about, /contact) render without errors",
+        "Header navigation links point to correct routes and highlight active page",
+        "Mobile hamburger menu opens/closes and navigates correctly",
+        "Project cards on /projects link to correct /projects/[slug] pages",
+        "Blog cards on /blog link to correct /blog/[slug] pages",
+        "Contact form submits and shows success state",
+        "Command palette Cmd+K opens and navigates to all pages",
+        "No placeholder text exists anywhere in the app ('Yakinda', 'TODO', 'Coming soon', etc.)",
+        "All MDX blog posts and projects render their full content",
+        "SEO metadata is set correctly per page",
+        "Custom 404 page renders when navigating to non-existent route",
+        "Error boundary catches errors with retry option",
+        "Remove all orphan/dead code files created by individual stories that are no longer needed",
+        "npm run build succeeds with no errors",
+        "npm run lint passes with no errors",
+        "Typecheck passes with no errors"
+      ],
+      "depends_on": [
+        "US-002",
+        "US-003",
+        "US-004",
+        "US-005",
+        "US-006",
+        "US-007",
+        "US-008",
+        "US-009",
+        "US-010",
+        "US-011",
+        "US-012",
+        "US-013",
+        "US-014"
+      ],
+      "screens": [
+        "0da9a09fb1e44e77824f0b81fe565023",
+        "51b4e4fe81134726a68bfde925028f6d",
+        "901b07591d984879a0f28a7e1279825b",
+        "6179c8995f1c4f3b9d442717d40735dc",
+        "ffd88b8781484c53936ffd6726b509ee",
+        "9a31eab4d152451399485299e1a65cf3",
+        "0539313873cb412d9d0b86ff0961a9ef"
+      ],
+      "testCriteria": "Integration tests pass; E2E tests for all critical user flows pass; build succeeds"
+    }
+  ],
+  "screenMap": [
+    {
+      "screenId": "0da9a09fb1e44e77824f0b81fe565023",
+      "name": "Ana Sayfa",
+      "type": "page",
+      "description": "Hero section with terminal greeting, typing animation, CTA buttons, featured projects grid, recent blog posts, CTA section",
+      "stories": [
+        "US-002",
+        "US-003",
+        "US-005",
+        "US-012",
+        "US-014",
+        "US-015"
+      ]
+    },
+    {
+      "screenId": "51b4e4fe81134726a68bfde925028f6d",
+      "name": "Projeler - Hikmet Gulesli",
+      "type": "page",
+      "description": "Projects listing with filter bar, search, responsive grid of project cards, pagination",
+      "stories": [
+        "US-002",
+        "US-003",
+        "US-006",
+        "US-014",
+        "US-015"
+      ]
+    },
+    {
+      "screenId": "901b07591d984879a0f28a7e1279825b",
+      "name": "Proje Detay - Vesta Dashboard",
+      "type": "page",
+      "description": "Project detail page with hero thumbnail, content sections, tech stack, gallery carousel, code blocks, next/prev navigation",
+      "stories": [
+        "US-002",
+        "US-003",
+        "US-004",
+        "US-007",
+        "US-014",
+        "US-015"
+      ]
+    },
+    {
+      "screenId": "6179c8995f1c4f3b9d442717d40735dc",
+      "name": "Blog - Hikmet Gulesli",
+      "type": "page",
+      "description": "Blog listing with search, category filter, featured article, 2-column article grid, pagination",
+      "stories": [
+        "US-002",
+        "US-003",
+        "US-008",
+        "US-014",
+        "US-015"
+      ]
+    },
+    {
+      "screenId": "ffd88b8781484c53936ffd6726b509ee",
+      "name": "Blog Detay - Hikmet Gulesli",
+      "type": "page",
+      "description": "Blog article page with prose typography, TOC sidebar, share buttons, author bio, related articles, code blocks",
+      "stories": [
+        "US-002",
+        "US-003",
+        "US-004",
+        "US-009",
+        "US-014",
+        "US-015"
+      ]
+    },
+    {
+      "screenId": "9a31eab4d152451399485299e1a65cf3",
+      "name": "Hakkinda - Hikmet Gulesli",
+      "type": "page",
+      "description": "About page with profile avatar, bio, experience timeline, skills grid with proficiency bars, CV download",
+      "stories": [
+        "US-002",
+        "US-003",
+        "US-010",
+        "US-015"
+      ]
+    },
+    {
+      "screenId": "0539313873cb412d9d0b86ff0961a9ef",
+      "name": "Iletisim - Hikmet Gulesli",
+      "type": "page",
+      "description": "Contact page with split layout form and info section, real-time validation, success/error states, API route",
+      "stories": [
+        "US-002",
+        "US-003",
+        "US-011",
+        "US-015"
+      ]
+    }
+  ]
+}
