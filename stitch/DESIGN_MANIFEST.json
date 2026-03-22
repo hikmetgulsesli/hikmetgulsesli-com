@@ -1,55 +1,58 @@
-{
-  "projectId": "2269194756870439603",
-  "screens": [
-    {
-      "id": "51b4e4fe81134726a68bfde925028f6d",
-      "title": "Projeler - Hikmet Güleşli",
-      "file": "51b4e4fe81134726a68bfde925028f6d.html",
-      "width": "2560",
-      "height": "4150"
-    },
-    {
-      "id": "901b07591d984879a0f28a7e1279825b",
-      "title": "Proje Detay - Vesta Dashboard",
-      "file": "901b07591d984879a0f28a7e1279825b.html",
-      "width": "2560",
-      "height": "5660"
-    },
-    {
-      "id": "6179c8995f1c4f3b9d442717d40735dc",
-      "title": "Blog - Hikmet Güleşli",
-      "file": "6179c8995f1c4f3b9d442717d40735dc.html",
-      "width": "2560",
-      "height": "3958"
-    },
-    {
-      "id": "ffd88b8781484c53936ffd6726b509ee",
-      "title": "Blog Detay - Hikmet Güleşli",
-      "file": "ffd88b8781484c53936ffd6726b509ee.html",
-      "width": "2560",
-      "height": "5504"
-    },
-    {
-      "id": "9a31eab4d152451399485299e1a65cf3",
-      "title": "Hakkında - Hikmet Güleşli",
-      "file": "9a31eab4d152451399485299e1a65cf3.html",
-      "width": "2560",
-      "height": "3012"
-    },
-    {
-      "id": "0539313873cb412d9d0b86ff0961a9ef",
-      "title": "İletişim - Hikmet Güleşli",
-      "file": "0539313873cb412d9d0b86ff0961a9ef.html",
-      "width": "2560",
-      "height": "2702"
-    },
-    {
-      "id": "0da9a09fb1e44e77824f0b81fe565023",
-      "title": "Ana Sayfa",
-      "file": "0da9a09fb1e44e77824f0b81fe565023.html",
-      "width": "2560",
-      "height": "5668"
-    }
-  ],
-  "generatedAt": "2026-03-22T20:41:35.089Z"
-}
+[
+  {
+    "screenId": "0da9a09fb1e44e77824f0b81fe565023",
+    "title": "Ana Sayfa - Hikmet Güleşli",
+    "htmlFile": "Ana-Sayfa---Hikmet-G-le-li.html",
+    "deviceType": "DESKTOP",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzJiZWU5YjFhOTA0NjQ5MTBhYjNjMzJhZDYxMzlhOGM4EgsSBxCN19Wi9xcYAZIBIwoKcHJvamVjdF9pZBIVQhMyMjY5MTk0NzU2ODcwNDM5NjAz&filename=&opi=96797242",
+    "localHtml": null
+  },
+  {
+    "screenId": "51b4e4fe81134726a68bfde925028f6d",
+    "title": "Projeler - Hikmet Güleşli",
+    "htmlFile": "Projeler---Hikmet-G-le-li.html",
+    "deviceType": "DESKTOP",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzU2MzkzODI4ZTU5MTQ5MWJiMTc1OWJhMjI5YzM3NWM1EgsSBxCN19Wi9xcYAZIBIwoKcHJvamVjdF9pZBIVQhMyMjY5MTk0NzU2ODcwNDM5NjAz&filename=&opi=96797242",
+    "localHtml": null
+  },
+  {
+    "screenId": "901b07591d984879a0f28a7e1279825b",
+    "title": "Proje Detay - Vesta Dashboard",
+    "htmlFile": "Proje-Detay---Vesta-Dashboard.html",
+    "deviceType": "DESKTOP",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzAxMDllOTc3YTRkYTQzZTNhOGJiY2Y1MTJkMjJiZGQyEgsSBxCN19Wi9xcYAZIBIwoKcHJvamVjdF9pZBIVQhMyMjY5MTk0NzU2ODcwNDM5NjAz&filename=&opi=96797242",
+    "localHtml": null
+  },
+  {
+    "screenId": "6179c8995f1c4f3b9d442717d40735dc",
+    "title": "Blog - Hikmet Güleşli",
+    "htmlFile": "Blog---Hikmet-G-le-li.html",
+    "deviceType": "DESKTOP",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzg0N2I2ZDI0OGMwZjRkZTBhMWZmMzM2NzhmNDYwYzhmEgsSBxCN19Wi9xcYAZIBIwoKcHJvamVjdF9pZBIVQhMyMjY5MTk0NzU2ODcwNDM5NjAz&filename=&opi=96797242",
+    "localHtml": null
+  },
+  {
+    "screenId": "ffd88b8781484c53936ffd6726b509ee",
+    "title": "Blog Detay - Hikmet Güleşli",
+    "htmlFile": "Blog-Detay---Hikmet-G-le-li.html",
+    "deviceType": "DESKTOP",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzYzN2FlOTg4MzRmMjRmOGQ4MTM1M2NhN2Y5NmUzNmY0EgsSBxCN19Wi9xcYAZIBIwoKcHJvamVjdF9pZBIVQhMyMjY5MTk0NzU2ODcwNDM5NjAz&filename=&opi=96797242",
+    "localHtml": null
+  },
+  {
+    "screenId": "9a31eab4d152451399485299e1a65cf3",
+    "title": "Hakkında - Hikmet Güleşli",
+    "htmlFile": "Hakk-nda---Hikmet-G-le-li.html",
+    "deviceType": "DESKTOP",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzViYWE0ZTRlMGIxZjQ4YjliOTIyNzNmYjhhMWMyODA3EgsSBxCN19Wi9xcYAZIBIwoKcHJvamVjdF9pZBIVQhMyMjY5MTk0NzU2ODcwNDM5NjAz&filename=&opi=96797242",
+    "localHtml": null
+  },
+  {
+    "screenId": "0539313873cb412d9d0b86ff0961a9ef",
+    "title": "İletişim - Hikmet Güleşli",
+    "htmlFile": "-leti-im---Hikmet-G-le-li.html",
+    "deviceType": "DESKTOP",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2JiNzZjOTg3YWZiNjQwNTFiOWM1Yzc2Y2YzOTk3Y2FkEgsSBxCN19Wi9xcYAZIBIwoKcHJvamVjdF9pZBIVQhMyMjY5MTk0NzU2ODcwNDM5NjAz&filename=&opi=96797242",
+    "localHtml": null
+  }
+]
