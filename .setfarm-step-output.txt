@@ -2,5 +2,5 @@ STATUS: done
 BUILD_CMD: npm run build
 TEST_CMD: 
 LINT_CMD: npm run lint
-CI_NOTES: Next.js 16.2.1 + React 19 + Tailwind 4 scaffolded. ESLint ignores debug utilities.
-BASELINE: ok
+CI_NOTES: Next.js 16.2.1 with Turbopack. Build succeeds. Lint passes with 0 errors. ESLint config uses nextjs/core-web-vitals + typescript rules.
+BASELINE: success
