@@ -129,6 +129,7 @@ export default function Home() {
                   className="w-5 h-5 group-hover:scale-110 transition-transform"
                   fill="currentColor"
                   viewBox="0 0 24 24"
+                  aria-hidden="true"
                 >
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
@@ -201,23 +202,28 @@ export default function Home() {
           {/* Background Glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
 
-          <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8">
-            <h2 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter uppercase leading-none">
-              Let&apos;s build something{" "}
-              <span className="text-primary">amazing</span> together.
-            </h2>
-            <p className="text-on-surface-variant text-lg max-w-xl mx-auto">
-              Currently open for new projects and collaborations. If you have a
-              challenge that needs precise execution, let&apos;s talk.
-            </p>
-            <div className="pt-8">
-              <Link
-                href="/contact"
-                className="px-12 py-5 bg-primary text-on-primary font-bold rounded-md shadow-[0_0_30px_rgba(78,222,163,0.4)] hover:scale-105 transition-transform flex items-center gap-3 mx-auto uppercase tracking-widest inline-flex"
-              >
-                <Mail className="w-5 h-5" />
-                İletişime Geç
-              </Link>
+          {/* Gradient Border Container */}
+          <div className="relative z-10 max-w-4xl mx-auto rounded-2xl bg-gradient-to-r from-primary via-accent to-primary p-[1px]">
+            <div className="rounded-2xl bg-surface-container-lowest px-8 py-16 md:px-16 md:py-20">
+              <div className="text-center space-y-8">
+                <h2 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter uppercase leading-none">
+                  Let&apos;s build something{" "}
+                  <span className="text-primary">amazing</span> together.
+                </h2>
+                <p className="text-on-surface-variant text-lg max-w-xl mx-auto">
+                  Currently open for new projects and collaborations. If you have a
+                  challenge that needs precise execution, let&apos;s talk.
+                </p>
+                <div className="pt-8">
+                  <Link
+                    href="/contact"
+                    className="px-12 py-5 bg-primary text-on-primary font-bold rounded-md shadow-[0_0_30px_rgba(78,222,163,0.4)] hover:scale-105 transition-transform flex items-center gap-3 mx-auto uppercase tracking-widest inline-flex"
+                  >
+                    <Mail className="w-5 h-5" />
+                    İletişime Geç
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>

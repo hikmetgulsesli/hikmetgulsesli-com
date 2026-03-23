@@ -12,14 +12,7 @@ const statusColors = {
   online: "bg-primary",
   offline: "bg-[var(--color-outline)]",
   busy: "bg-error",
-  away: "bg-warning",
-};
-
-const statusPingColors = {
-  online: "bg-primary",
-  offline: "bg-[var(--color-outline)]",
-  busy: "bg-error",
-  away: "bg-warning",
+  away: "bg-[var(--color-tertiary)]",
 };
 
 export function StatusBadge({
@@ -35,12 +28,6 @@ export function StatusBadge({
     lg: "h-3 w-3",
   };
 
-  const pingSizes = {
-    sm: "h-1.5 w-1.5",
-    md: "h-2 w-2",
-    lg: "h-3 w-3",
-  };
-
   return (
     <div
       className={cn(
@@ -48,13 +35,13 @@ export function StatusBadge({
         className
       )}
     >
-      <span className="relative flex h-2 w-2">
+      <span className={cn("relative flex", dotSizes[size])}>
         {status === "online" && (
           <span
             className={cn(
               "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",
-              pingSizes[size],
-              statusPingColors[status]
+              dotSizes[size],
+              statusColors[status]
             )}
           />
         )}

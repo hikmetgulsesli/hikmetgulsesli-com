@@ -22,12 +22,12 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
   return (
     <div
       className={cn(
-        "group bg-surface-container hover:bg-surface-container-high transition-all duration-300 border-l-2 border-transparent hover:border-primary overflow-hidden cursor-pointer",
+        "group bg-surface-container overflow-hidden border border-transparent hover:border-primary transition-all duration-200 hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:-translate-y-1",
         className
       )}
     >
+      {/* Thumbnail - links to project detail */}
       <Link href={`/projects/${project.slug}`} className="block">
-        {/* Thumbnail */}
         <div className="aspect-video w-full overflow-hidden bg-slate-900 relative">
           <Image
             src={project.thumbnail}
@@ -58,34 +58,34 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
               </span>
             ))}
           </div>
-
-          {/* Links */}
-          <div className="flex items-center gap-4 pt-2">
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-label"
-              >
-                <Github className="w-4 h-4" />
-                <span>GITHUB</span>
-              </a>
-            )}
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-label"
-              >
-                <ExternalLink className="w-4 h-4" />
-                <span>DEMO</span>
-              </a>
-            )}
-          </div>
         </div>
       </Link>
+
+      {/* Links - outside the main Link to avoid nested anchors */}
+      <div className="flex items-center gap-4 px-6 pb-6">
+        {project.githubUrl && (
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-label"
+          >
+            <Github className="w-4 h-4" />
+            <span>GITHUB</span>
+          </a>
+        )}
+        {project.liveUrl && (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-label"
+          >
+            <ExternalLink className="w-4 h-4" />
+            <span>DEMO</span>
+          </a>
+        )}
+      </div>
     </div>
   );
 }
