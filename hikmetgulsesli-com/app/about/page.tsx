@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import Image from "next/image";
+import { generatePersonJsonLd, generateBreadcrumbJsonLd, BASE_URL } from "@/lib/seo";
 
 interface TimelineItemProps {
   date: string;
@@ -212,10 +214,25 @@ const skillCategories = [
 const learningTopics = ["Rust", "WASM", "AI Agents", "WebGPU"];
 
 export default function AboutPage() {
+  const personJsonLd = generatePersonJsonLd();
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Ana Sayfa", url: BASE_URL },
+    { name: "Hakkında", url: `${BASE_URL}/about` },
+  ]);
+
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Scanline Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-[100] scanline opacity-50" />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: personJsonLd }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: breadcrumbJsonLd }}
+      />
+      <div className="min-h-screen flex flex-col">
+        {/* Scanline Overlay */}
+        <div className="fixed inset-0 pointer-events-none z-[100] scanline opacity-50" />
 
       {/* Top Navigation */}
       <header className="bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant/10 fixed top-0 w-full z-50">
@@ -270,10 +287,12 @@ export default function AboutPage() {
             className="relative group"
           >
             <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/40 transition-all duration-500" />
-            <img
+            <Image
               alt="Hikmet Güleşli Avatar"
               className="relative w-[200px] h-[200px] rounded-full object-cover border-4 border-primary shadow-[0_0_30px_rgba(78,222,163,0.3)] group-hover:scale-105 transition-transform duration-300"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA174UADiEYMPYWlht4hK6-w3oYaRbVVz4qgfjxYXBtMfMngh_nbMWij1ULz5hGQOokSRPmOi3YhoGHpQRzTN6irdfJKCgkGrleSUL2nGF8Z5m6zf_n8M_B_wd00-lpJukh9xFUSmAzCAD_-nbQwvZXYye8Hp0X9sQQPcKbuad0yfudhWeoeIe9BXf1DfNw8i6pKtT5k1vRwJMjK7E2ZPuBVgKm1RYFVDUud_OzPtbNd6_udnnGK78BeDdjngRWaI4Xkm0aC6B3gs"
+              src="/og-image.png"
+              width={200}
+              height={200}
             />
           </motion.div>
 
@@ -286,7 +305,7 @@ export default function AboutPage() {
               Full-Stack Developer & Systems Architect
             </h3>
             <p className="max-w-2xl text-on-surface-variant text-lg leading-relaxed">
-              Complex sistemleri minimalist ve ölçeklenebilir çözümlere
+              Karmaşık sistemleri minimalist ve ölçeklenebilir çözümlere
               dönüştürmeye odaklı bir yazılım mimarı. Sentinel Interface
               vizyonuyla, veri yoğunluklu uygulamaları kullanıcı odaklı terminal
               estetiğiyle harmanlıyorum. Geleceğin dijital altyapılarını bugünün
@@ -404,5 +423,6 @@ export default function AboutPage() {
         </div>
       </footer>
     </div>
+    </>
   );
 }

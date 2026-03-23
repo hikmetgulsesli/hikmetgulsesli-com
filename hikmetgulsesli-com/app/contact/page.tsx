@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Mail, MapPin, Github, Linkedin, Twitter, Network } from "lucide-react";
+import { generateBreadcrumbJsonLd, BASE_URL } from "@/lib/seo";
 
 const contactSchema = z.object({
   firstName: z
@@ -47,9 +48,6 @@ export default function ContactPage() {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
       
-      // In production, this would be a real API call
-      console.log("Form submitted:", data);
-      
       setIsSuccess(true);
       reset();
       
@@ -62,7 +60,17 @@ export default function ContactPage() {
     }
   };
 
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Ana Sayfa", url: BASE_URL },
+    { name: "İletişim", url: `${BASE_URL}/contact` },
+  ]);
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: breadcrumbJsonLd }}
+      />
     <main className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
       {/* Header */}
       <motion.div
@@ -459,5 +467,6 @@ export default function ContactPage() {
         </motion.div>
       </div>
     </main>
+    </>
   );
 }

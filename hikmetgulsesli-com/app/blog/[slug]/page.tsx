@@ -1,304 +1,343 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
-import { getBlogDetail, getAllBlogSlugs, blogDetails } from "@/lib/blog-detail";
-import BlogDetailClient from "@/components/ui/BlogDetailClient";
+import { generateArticleJsonLd, generateBreadcrumbJsonLd, BASE_URL } from "@/lib/seo";
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
+interface BlogPostPageProps {
+  params: { slug: string };
 }
 
-export async function generateStaticParams() {
-  return getAllBlogSlugs().map((slug) => ({
-    slug,
-  }));
-}
+// Sample blog post data - in production this would come from a CMS/database
+const blogPosts: Record<
+  string,
+  {
+    title: string;
+    excerpt: string;
+    content: string;
+    publishedAt: string;
+    updatedAt: string;
+    author: string;
+    readTime: number;
+    category: string;
+    tags: string[];
+    featuredImage?: string;
+  }
+> = {
+  "building-modern-web-applications": {
+    title: "Modern Web Uygulamaları Geliştirme",
+    excerpt:
+      "Next.js 14 ile App Router kullanarak modern web uygulamaları geliştirmek için temel ipuçları ve best practice'ler.",
+    content: `# Modern Web Uygulamaları Geliştirme
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+Next.js 14 ile gelen App Router, React tabanlı web geliştirmede yeni bir dönem başlatıyor. Bu yazıda, modern web uygulamaları geliştirirken dikkat etmemiz gereken temel prensipleri ve en iyi uygulamaları ele alacağız.
+
+## App Router'ın Avantajları
+
+App Router, dosya tabanlı routing sistemiyle React Server Components (RSC) desteği sunuyor. Bu sayede:
+
+- **Sunucu tarafında render**: SEO açısından kritik içerikler daha hızlı yüklenir
+- **Streaming**: Büyük sayfaları parçalara bölerek kullanıcıya daha hızlı gösterim
+- **Layout'lar**: Paylaşılan UI elementlerini tek bir yerden yönetme
+
+## Performans İyileştirmeleri
+
+Modern web uygulamalarında performans, kullanıcı deneyiminin temel taşlarından biridir. Next.js'in sunduğu otomatik optimizasyonlardan faydalanırken, manuel olarak da iyileştirmeler yapabiliriz.
+
+## Sonuç
+
+Modern web geliştirme sürekli evrilen bir alan. Next.js 14 ve React 19'un sunduğu yeniliklerle, geliştiriciler olarak daha güçlü ve performanslı uygulamalar oluşturabiliriz.`,
+    publishedAt: "2024-06-16T10:00:00Z",
+    updatedAt: "2024-06-16T10:00:00Z",
+    author: "Hikmet Güleşli",
+    readTime: 5,
+    category: "Teknik",
+    tags: ["Next.js", "React", "Web Development", "TypeScript"],
+    featuredImage: "/og-image.png",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogDetail(slug);
+  const post = blogPosts[slug];
 
   if (!post) {
     return {
-      title: "Yazı Bulunamadı | Hikmet Güleşli",
+      title: "Yazı Bulunamadı",
+      description: "Aradığınız blog yazısı mevcut değil.",
     };
   }
 
   return {
-    title: `${post.title} | Hikmet Güleşli`,
+    title: post.title,
     description: post.excerpt,
+    authors: [{ name: post.author, url: `${BASE_URL}/about` }],
     openGraph: {
-      title: post.title,
+      title: `${post.title} | Hikmet Güleşli`,
       description: post.excerpt,
-      images: post.featuredImage ? [post.featuredImage] : [],
+      url: `${BASE_URL}/blog/${slug}`,
       type: "article",
+      locale: "tr_TR",
       publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt,
+      authors: [post.author],
       tags: post.tags,
+      images: post.featuredImage
+        ? [
+            {
+              url: post.featuredImage,
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ]
+        : [
+            {
+              url: "/og-image.png",
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${post.title} | Hikmet Güleşli`,
+      description: post.excerpt,
+      images: [post.featuredImage || "/og-image.png"],
+    },
+    alternates: {
+      canonical: `/blog/${slug}`,
     },
   };
 }
 
-export default async function BlogDetailPage({ params }: PageProps) {
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = getBlogDetail(slug);
+  const post = blogPosts[slug];
 
   if (!post) {
-    return <BlogNotFound />;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="font-headline text-4xl font-bold text-primary mb-4">
+            404
+          </h1>
+          <p className="text-on-surface-variant mb-6">
+            Aradığınız blog yazısı mevcut değil.
+          </p>
+          <a
+            href="/blog"
+            className="px-6 py-3 bg-primary text-on-primary rounded-md font-bold"
+          >
+            Blog&apos;a Dön
+          </a>
+        </div>
+      </div>
+    );
   }
 
-  if (post.status === "draft") {
-    return <BlogDraft post={post} />;
-  }
+  const articleSchema = generateArticleJsonLd({
+    headline: post.title,
+    description: post.excerpt,
+    image: post.featuredImage ? `${BASE_URL}${post.featuredImage}` : undefined,
+    authorName: post.author,
+    authorUrl: `${BASE_URL}/about`,
+    publisherName: "Hikmet Güleşli",
+    publisherUrl: BASE_URL,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt,
+    slug,
+  });
 
-  return <BlogDetailClient post={post} />;
-}
-
-function BlogNotFound() {
-  const allPosts = Object.values(blogDetails).slice(0, 3);
+  const breadcrumbSchema = generateBreadcrumbJsonLd([
+    { name: "Ana Sayfa", url: BASE_URL },
+    { name: "Blog", url: `${BASE_URL}/blog` },
+    { name: post.title, url: `${BASE_URL}/blog/${slug}` },
+  ]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Scanline Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-[100] scanline opacity-50" />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: articleSchema }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: breadcrumbSchema }}
+      />
+      <div className="min-h-screen flex flex-col">
+        {/* Scanline Overlay */}
+        <div className="fixed inset-0 pointer-events-none z-[100] scanline opacity-50" />
 
-      {/* Header Navigation */}
-      <header className="bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant/10 fixed top-0 w-full z-50">
-        <nav className="flex justify-between items-center px-8 h-16 max-w-[1280px] mx-auto">
-          <Link
-            href="/"
-            className="text-xl font-bold text-primary tracking-widest font-headline hover:text-primary/80 transition-colors"
-          >
-            KINETIC_CONSOLE
-          </Link>
-          <div className="hidden md:flex gap-8 items-center">
-            <Link
+        {/* Top Navigation */}
+        <header className="bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant/10 fixed top-0 w-full z-50">
+          <nav className="flex justify-between items-center px-8 h-16">
+            <a
               href="/"
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
+              className="text-xl font-bold text-primary tracking-widest font-headline"
             >
-              ANA SAYFA
-            </Link>
-            <Link
-              href="/projects"
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
-            >
-              PROJELER
-            </Link>
-            <Link
-              href="/blog"
-              className="font-headline uppercase tracking-tighter font-bold text-primary border-b-2 border-primary pb-1"
-            >
-              BLOG
-            </Link>
-            <Link
-              href="/about"
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
-            >
-              HAKKIMDA
-            </Link>
-            <Link
-              href="/contact"
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
-            >
-              İLETİŞİM
-            </Link>
-          </div>
-        </nav>
-      </header>
+              KINETIC_CONSOLE
+            </a>
+            <div className="hidden md:flex gap-8 items-center">
+              <a
+                className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
+                href="/projects"
+              >
+                PROJECTS
+              </a>
+              <a
+                className="font-headline uppercase tracking-tighter font-bold text-primary border-b-2 border-primary pb-1"
+                href="/blog"
+              >
+                BLOG
+              </a>
+              <a
+                className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
+                href="/about"
+              >
+                STACK
+              </a>
+              <a
+                className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
+                href="/contact"
+              >
+                CONTACT
+              </a>
+            </div>
+            <button className="bg-primary/10 border border-primary/20 text-primary px-4 py-2 rounded-md font-headline uppercase tracking-tighter font-bold text-sm hover:bg-primary/20 transition-all">
+              DOWNLOAD_CV
+            </button>
+          </nav>
+        </header>
 
-      {/* Main Content */}
-      <main className="flex-grow pt-16 flex items-center justify-center">
-        <div className="max-w-2xl mx-auto px-8 py-20 text-center">
-          {/* 404 Indicator */}
-          <div className="font-label text-8xl font-bold text-primary/20 mb-4">
-            404
-          </div>
+        {/* Main Content */}
+        <main className="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-4xl mx-auto">
+          {/* Article Header */}
+          <article>
+            <header className="mb-12">
+              {/* Breadcrumb */}
+              <nav className="flex items-center gap-2 mb-6 text-sm font-label">
+                <a href="/" className="text-slate-500 hover:text-primary">
+                  Ana Sayfa
+                </a>
+                <span className="text-slate-600">/</span>
+                <a href="/blog" className="text-slate-500 hover:text-primary">
+                  Blog
+                </a>
+                <span className="text-slate-600">/</span>
+                <span className="text-on-surface-variant truncate max-w-[200px]">
+                  {post.title}
+                </span>
+              </nav>
 
-          <h1 className="font-headline text-3xl md:text-4xl font-bold uppercase tracking-tight mb-4 text-on-surface">
-            Yazı Bulunamadı
-          </h1>
+              {/* Meta */}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-sm font-label text-slate-500">
+                  {new Date(post.publishedAt).toLocaleDateString("tr-TR", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </span>
+                <span className="text-sm font-label text-slate-500">•</span>
+                <span className="text-sm font-label text-slate-500">
+                  {post.readTime} dk okuma
+                </span>
+              </div>
 
-          <p className="text-on-surface-variant mb-8 max-w-md mx-auto">
-            Aradığınız yazı mevcut değil veya URL yanlış olabilir. 
-            Diğer yazılarımı incelemek ister misiniz?
-          </p>
+              {/* Title */}
+              <h1 className="font-headline text-3xl md:text-5xl font-bold tracking-tight mb-6">
+                {post.title}
+              </h1>
 
-          {/* Post Suggestions */}
-          <div className="mb-8">
-            <h2 className="font-headline text-sm font-semibold uppercase tracking-wider text-on-surface-variant mb-4">
-              Diğer Yazılar
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {allPosts.map((p) => (
-                <Link
-                  key={p.slug}
-                  href={`/blog/${p.slug}`}
-                  className="block p-4 bg-surface-container rounded-lg border border-outline-variant/20 hover:border-primary transition-all duration-200 group"
+              {/* Excerpt */}
+              <p className="text-xl text-on-surface-variant leading-relaxed mb-6">
+                {post.excerpt}
+              </p>
+
+              {/* Tags */}
+              <div className="flex gap-2 flex-wrap">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 bg-surface-container-high text-xs font-label text-primary border border-primary/20"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </header>
+
+            {/* Article Content */}
+            <div className="prose prose-invert max-w-none">
+              <div className="text-on-surface-variant leading-relaxed space-y-6">
+                {post.content.split("\n\n").map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+
+            {/* Share Section */}
+            <div className="mt-12 pt-8 border-t border-outline-variant/20">
+              <p className="text-sm font-label text-slate-500 mb-4">
+                PAYLAŞ
+              </p>
+              <div className="flex gap-4">
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`${BASE_URL}/blog/${slug}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-surface-container-high text-sm font-label hover:bg-primary/10 hover:text-primary border border-outline-variant/20 transition-colors"
                 >
-                  {p.featuredImage && (
-                    <div className="aspect-video w-full mb-3 rounded-lg overflow-hidden bg-surface-container-high relative">
-                      <Image
-                        src={p.featuredImage}
-                        alt={p.title}
-                        fill
-                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
-                      />
-                    </div>
-                  )}
-                  <h3 className="font-headline text-sm font-semibold uppercase tracking-tight text-on-surface group-hover:text-primary transition-colors line-clamp-2">
-                    {p.title}
-                  </h3>
-                </Link>
-              ))}
+                  Twitter
+                </a>
+                <a
+                  href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`${BASE_URL}/blog/${slug}`)}&title=${encodeURIComponent(post.title)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-surface-container-high text-sm font-label hover:bg-primary/10 hover:text-primary border border-outline-variant/20 transition-colors"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href={`${BASE_URL}/blog/${slug}`}
+                  className="px-4 py-2 bg-surface-container-high text-sm font-label hover:bg-primary/10 hover:text-primary border border-outline-variant/20 transition-colors"
+                >
+                  Bağlantıyı Kopyala
+                </a>
+              </div>
+            </div>
+          </article>
+        </main>
+
+        {/* Footer */}
+        <footer className="w-full border-t border-primary/20 bg-surface-container-low">
+          <div className="flex flex-col md:flex-row justify-between items-center px-8 py-6 w-full gap-4">
+            <div className="text-primary font-bold font-label text-[10px] uppercase tracking-widest">
+              © 2024 SENTINEL_INTERFACE // ALL_RIGHTS_RESERVED
+            </div>
+            <div className="flex gap-6 font-label text-[10px] uppercase tracking-widest">
+              <a
+                className="text-slate-500 hover:text-primary transition-all"
+                href="https://github.com/hikmetgulsesli"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GITHUB
+              </a>
+              <a
+                className="text-slate-500 hover:text-primary transition-all"
+                href="https://linkedin.com/in/hikmetgulsesli"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LINKEDIN
+              </a>
+              <span className="text-primary">TERMINAL_STATUS:ONLINE</span>
             </div>
           </div>
-
-          {/* Back to Blog */}
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors font-headline font-semibold uppercase tracking-tight"
-          >
-            Tüm Yazıları Gör
-          </Link>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-surface-container-lowest border-t border-outline-variant/10 py-6">
-        <div className="flex flex-col md:flex-row justify-between items-center px-8 gap-4 max-w-[1280px] mx-auto">
-          <div className="text-primary font-bold font-headline">
-            HİKMET GÜLEŞLİ
-          </div>
-          <div className="font-label text-xs tracking-mono text-on-surface-variant">
-            © 2024 HİKMET GÜLEŞLİ // SYSTEM_READY
-          </div>
-          <div className="flex gap-6 font-label text-xs tracking-mono">
-            <a
-              href="https://github.com/hikmetgulsesli"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-on-surface-variant hover:text-primary underline decoration-outline/30 transition-opacity duration-200"
-            >
-              GITHUB
-            </a>
-            <a
-              href="https://linkedin.com/in/hikmetgulsesli"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-on-surface-variant hover:text-primary underline decoration-outline/30 transition-opacity duration-200"
-            >
-              LINKEDIN
-            </a>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-}
-
-function BlogDraft({ post }: { post: ReturnType<typeof getBlogDetail> }) {
-  return (
-    <div className="min-h-screen flex flex-col">
-      {/* Scanline Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-[100] scanline opacity-50" />
-
-      {/* Header Navigation */}
-      <header className="bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant/10 fixed top-0 w-full z-50">
-        <nav className="flex justify-between items-center px-8 h-16 max-w-[1280px] mx-auto">
-          <Link
-            href="/"
-            className="text-xl font-bold text-primary tracking-widest font-headline hover:text-primary/80 transition-colors"
-          >
-            KINETIC_CONSOLE
-          </Link>
-          <div className="hidden md:flex gap-8 items-center">
-            <Link
-              href="/"
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
-            >
-              ANA SAYFA
-            </Link>
-            <Link
-              href="/projects"
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
-            >
-              PROJELER
-            </Link>
-            <Link
-              href="/blog"
-              className="font-headline uppercase tracking-tighter font-bold text-primary border-b-2 border-primary pb-1"
-            >
-              BLOG
-            </Link>
-            <Link
-              href="/about"
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
-            >
-              HAKKIMDA
-            </Link>
-            <Link
-              href="/contact"
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
-            >
-              İLETİŞİM
-            </Link>
-          </div>
-        </nav>
-      </header>
-
-      {/* Main Content */}
-      <main className="flex-grow pt-16 flex items-center justify-center">
-        <div className="max-w-lg mx-auto px-8 py-20 text-center">
-          <div className="font-label text-6xl font-bold text-warning mb-4">
-            TASLAK
-          </div>
-
-          <h1 className="font-headline text-2xl md:text-3xl font-bold uppercase tracking-tight mb-4 text-on-surface">
-            {post?.title || "Yazı Henüz Yayınlanmadı"}
-          </h1>
-
-          <p className="text-on-surface-variant mb-8">
-            Bu yazı henüz yayınlanmadı. Yakında okuyabilirsiniz.
-          </p>
-
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors font-headline font-semibold uppercase tracking-tight"
-          >
-            ← Tüm Yazılara Dön
-          </Link>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-surface-container-lowest border-t border-outline-variant/10 py-6">
-        <div className="flex flex-col md:flex-row justify-between items-center px-8 gap-4 max-w-[1280px] mx-auto">
-          <div className="text-primary font-bold font-headline">
-            HİKMET GÜLEŞLİ
-          </div>
-          <div className="font-label text-xs tracking-mono text-on-surface-variant">
-            © 2024 HİKMET GÜLEŞLİ // SYSTEM_READY
-          </div>
-          <div className="flex gap-6 font-label text-xs tracking-mono">
-            <a
-              href="https://github.com/hikmetgulsesli"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-on-surface-variant hover:text-primary underline decoration-outline/30 transition-opacity duration-200"
-            >
-              GITHUB
-            </a>
-            <a
-              href="https://linkedin.com/in/hikmetgulsesli"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-on-surface-variant hover:text-primary underline decoration-outline/30 transition-opacity duration-200"
-            >
-              LINKEDIN
-            </a>
-          </div>
-        </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
+    </>
   );
 }
