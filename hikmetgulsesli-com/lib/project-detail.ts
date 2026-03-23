@@ -224,11 +224,7 @@ export function getAllProjectSlugs(): string[] {
 export function getAdjacentProjects(slug: string): { prev: ProjectDetail | null; next: ProjectDetail | null } {
   const slugs = Object.keys(projectDetails);
   const currentIndex = slugs.indexOf(slug);
-
-  if (currentIndex === -1) {
-    return { prev: null, next: null };
-  }
-
+  
   return {
     prev: currentIndex > 0 ? projectDetails[slugs[currentIndex - 1]] : null,
     next: currentIndex < slugs.length - 1 ? projectDetails[slugs[currentIndex + 1]] : null,

@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { FilterBar } from "@/components/ui/FilterBar";
 import { ProjectGridSkeleton } from "@/components/ui/SkeletonCard";
-import { allProjects, filterProjects, CategoryId } from "@/lib/projects";
+import { allProjects, filterProjects, categories, CategoryId } from "@/lib/projects";
+import { cn } from "@/lib/utils";
 
 export default function ProjectsPageClient() {
   const [activeCategory, setActiveCategory] = useState<CategoryId>("all");

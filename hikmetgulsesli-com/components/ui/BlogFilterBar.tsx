@@ -2,23 +2,23 @@
 
 import { Search, Command } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { categories, CategoryId } from "@/lib/projects";
+import { blogCategories, BlogCategoryId } from "@/lib/blog";
 
-interface FilterBarProps {
-  activeCategory: CategoryId;
-  onCategoryChange: (category: CategoryId) => void;
+interface BlogFilterBarProps {
+  activeCategory: BlogCategoryId;
+  onCategoryChange: (category: BlogCategoryId) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
   className?: string;
 }
 
-export function FilterBar({
+export function BlogFilterBar({
   activeCategory,
   onCategoryChange,
   searchQuery,
   onSearchChange,
   className = "",
-}: FilterBarProps) {
+}: BlogFilterBarProps) {
   return (
     <div
       className={cn(
@@ -31,7 +31,7 @@ export function FilterBar({
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           {/* Category Buttons */}
           <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
+            {blogCategories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => onCategoryChange(category.id)}
@@ -54,7 +54,7 @@ export function FilterBar({
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Proje Ara..."
+              placeholder="EXECUTE_SEARCH --query"
               className="w-full pl-10 pr-16 py-2 bg-surface-container border border-outline-variant/30 rounded-md font-label text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
             />
             <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">

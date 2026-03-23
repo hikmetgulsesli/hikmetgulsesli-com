@@ -21,7 +21,7 @@ const tocItems = [
   { id: "genel-bakis", title: "Genel Bakış", level: 2 as const },
   { id: "teknoloji-yigini", title: "Teknoloji Yığını", level: 2 as const },
   { id: "galeri", title: "Ekran Görüntüleri", level: 2 as const },
-  { id: "zorluklar-ve-cozumler", title: "Zorluklar ve Çözümler", level: 2 as const },
+  { id: "sartlar-ve-cozumler", title: "Sartlar ve Çözümler", level: 2 as const },
   { id: "kaynak-kod", title: "Kaynak Kod", level: 2 as const },
   { id: "sonuclar", title: "Sonuçlar", level: 2 as const },
 ];

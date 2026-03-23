@@ -10,8 +10,8 @@ export interface Project {
   title: string;
   shortDescription: string;
   thumbnail: string;
+  category: "web" | "mobile" | "open-source" | "freelance";
   techStack: string[];
-  categories?: string[];
   githubUrl?: string;
   liveUrl?: string;
 }
