@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { Folder, Globe, Code2, Rocket } from "lucide-react";
 
 interface Project {
   slug: string;
@@ -9,7 +10,7 @@ interface Project {
   description: string;
   tech: string[];
   category: string;
-  emoji: string;
+  icon: React.ReactNode;
   github: string | null;
   demo: string | null;
 }
@@ -21,6 +22,19 @@ const categories = [
   { id: "acik-kaynak", label: "Açık Kaynak" },
   { id: "freelance", label: "Freelance" },
 ];
+
+function getProjectIcon(category: string) {
+  switch (category) {
+    case "web":
+      return <Globe className="w-12 h-12 text-primary/50" strokeWidth={1.5} />;
+    case "mobil":
+      return <Code2 className="w-12 h-12 text-primary/50" strokeWidth={1.5} />;
+    case "acik-kaynak":
+      return <Folder className="w-12 h-12 text-primary/50" strokeWidth={1.5} />;
+    default:
+      return <Rocket className="w-12 h-12 text-primary/50" strokeWidth={1.5} />;
+  }
+}
 
 interface ProjectsClientProps {
   projects: Project[];
@@ -61,8 +75,8 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
           >
             <div className="aspect-video bg-surface-container-high relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-4xl opacity-50">{project.emoji}</span>
+              <div className="absolute inset-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                {getProjectIcon(project.category)}
               </div>
             </div>
             <div className="p-6">

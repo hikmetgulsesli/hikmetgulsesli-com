@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { generateBreadcrumbJsonLd, generatePersonJsonLd } from "@/lib/seo";
+import { BarChart3, Rocket, Smartphone } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Ana Sayfa",
@@ -32,6 +33,19 @@ const breadcrumbSchema = generateBreadcrumbJsonLd([
   { name: "Ana Sayfa", url: "https://hikmetgulsesli.com" },
 ]);
 
+function getFeaturedProjectIcon(slug: string) {
+  switch (slug) {
+    case "vesta-dashboard":
+      return <BarChart3 className="w-12 h-12 text-primary/50" strokeWidth={1.5} />;
+    case "e-ticaret-api":
+      return <Rocket className="w-12 h-12 text-primary/50" strokeWidth={1.5} />;
+    case "mobil-uygulama":
+      return <Smartphone className="w-12 h-12 text-primary/50" strokeWidth={1.5} />;
+    default:
+      return <Rocket className="w-12 h-12 text-primary/50" strokeWidth={1.5} />;
+  }
+}
+
 const featuredProjects = [
   {
     slug: "vesta-dashboard",
@@ -39,7 +53,6 @@ const featuredProjects = [
     description:
       "Yapay zeka destekli veri analitiği ve görselleştirme platformu. Gerçek zamanlı metrikler ve tahminsel analizler.",
     tech: ["Next.js", "TypeScript", "Python"],
-    emoji: "📊",
   },
   {
     slug: "e-ticaret-api",
@@ -47,7 +60,6 @@ const featuredProjects = [
     description:
       "Mikroservis mimarisi ile geliştirilmiş ölçeklenebilir e-ticaret backend sistemi.",
     tech: ["Node.js", "PostgreSQL", "Docker"],
-    emoji: "🚀",
   },
   {
     slug: "mobil-uygulama",
@@ -55,7 +67,6 @@ const featuredProjects = [
     description:
       "React Native ile geliştirilen çapraz platform mobil uygulama.",
     tech: ["React Native", "Firebase"],
-    emoji: "📱",
   },
 ];
 
@@ -190,8 +201,8 @@ export default function HomePage() {
               >
                 <div className="aspect-video bg-surface-container-high relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-4xl opacity-50">{project.emoji}</span>
+                  <div className="absolute inset-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    {getFeaturedProjectIcon(project.slug)}
                   </div>
                 </div>
                 <div className="p-6">

@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Code, Palette, Settings, Database, Cloud, Briefcase, GraduationCap, Award, Download, Rocket } from "lucide-react";
 
 interface TimelineItemProps {
   date: string;
@@ -30,7 +31,10 @@ function TimelineItem({ date, title, company, description, isCurrent = false, in
         {date}
       </span>
       <h3 className="text-xl font-bold font-headline text-on-surface">{title}</h3>
-      <p className="text-primary text-sm font-label mb-3">@ {company}</p>
+      <p className="text-primary text-sm font-label mb-3 flex items-center gap-1">
+        <Briefcase className="w-3 h-3" />
+        @ {company}
+      </p>
       <p className="text-on-surface-variant text-sm leading-relaxed max-w-lg">{description}</p>
     </motion.div>
   );
@@ -39,7 +43,7 @@ function TimelineItem({ date, title, company, description, isCurrent = false, in
 interface SkillBarProps {
   name: string;
   percentage: number;
-  icon: string;
+  icon: React.ReactNode;
   index: number;
 }
 
@@ -56,7 +60,9 @@ function SkillBar({ name, percentage, icon, index }: SkillBarProps) {
       className="space-y-2"
     >
       <div className="flex justify-between text-xs font-label mb-2">
-        <span className="flex items-center gap-2"><span className="text-sm">{icon}</span> {name}</span>
+        <span className="flex items-center gap-2 text-on-surface-variant">
+          <span className="text-primary w-4 h-4">{icon}</span> {name}
+        </span>
       </div>
       <div className="h-1 bg-surface-container rounded-full overflow-hidden">
         <motion.div
@@ -77,9 +83,17 @@ const experiences = [
 ];
 
 const skillCategories = [
-  { category: "Frontend Mimarisi", skills: [{ name: "React / Next.js", percentage: 95, icon: "⌨" }, { name: "Tailwind CSS", percentage: 98, icon: "🎨" }] },
-  { category: "Backend ve Logic", skills: [{ name: "Node.js / Go", percentage: 90, icon: "⚙" }, { name: "PostgreSQL / Redis", percentage: 85, icon: "💾" }] },
-  { category: "Altyapı", skills: [{ name: "Docker / Kubernetes", percentage: 80, icon: "☁" }] },
+  { category: "Frontend Mimarisi", skills: [
+    { name: "React / Next.js", percentage: 95, icon: <Code className="w-4 h-4" /> },
+    { name: "Tailwind CSS", percentage: 98, icon: <Palette className="w-4 h-4" /> }
+  ]},
+  { category: "Backend ve Logic", skills: [
+    { name: "Node.js / Go", percentage: 90, icon: <Settings className="w-4 h-4" /> },
+    { name: "PostgreSQL / Redis", percentage: 85, icon: <Database className="w-4 h-4" /> }
+  ]},
+  { category: "Altyapı", skills: [
+    { name: "Docker / Kubernetes", percentage: 80, icon: <Cloud className="w-4 h-4" /> }
+  ]},
 ];
 
 const learningTopics = ["Rust", "WASM", "AI Agents", "WebGPU"];
@@ -93,7 +107,7 @@ export function AboutContent() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="relative group">
             <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/40 transition-all duration-500" />
             <div className="relative w-[200px] h-[200px] rounded-full bg-surface-container-high border-4 border-primary shadow-[0_0_30px_rgba(78,222,163,0.3)] group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
-              <span className="text-6xl">👨‍💻</span>
+              <span className="font-headline text-5xl font-bold text-primary">HG</span>
             </div>
           </motion.div>
           <div className="flex-1 text-center md:text-left">
@@ -126,7 +140,10 @@ export function AboutContent() {
               </div>
             </div>
             <div className="bg-surface-container-low p-6 border-l-2 border-primary">
-              <h2 className="font-headline text-lg font-bold uppercase tracking-widest mb-4 flex items-center gap-2"><span className="text-primary">🚀</span> Şu Anda Öğreniyorum</h2>
+              <h2 className="font-headline text-lg font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
+                <Rocket className="w-4 h-4 text-primary" />
+                Şu Anda Öğreniyorum
+              </h2>
               <div className="flex flex-wrap gap-2">
                 {learningTopics.map((topic) => <span key={topic} className="px-3 py-1 bg-surface-container-high text-xs font-label text-on-surface-variant border border-outline-variant/30">{topic}</span>)}
               </div>
@@ -136,7 +153,8 @@ export function AboutContent() {
               download
               className="w-full bg-primary text-[var(--color-on-primary)] font-headline font-bold py-4 rounded-lg shadow-[0_0_25px_rgba(78,222,163,0.4)] hover:shadow-[0_0_40px_rgba(78,222,163,0.6)] transition-all flex items-center justify-center gap-3 active:scale-95"
             >
-              <span className="text-lg">⬇</span><span>CV'YI İNDİR</span>
+              <Download className="w-4 h-4" />
+              <span>CV'YI İNDİR</span>
             </a>
           </div>
         </div>
