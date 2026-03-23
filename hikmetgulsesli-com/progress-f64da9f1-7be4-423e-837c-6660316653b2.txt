@@ -1,0 +1,22 @@
+=== US-004: Home page — Hero, Featured Projects, Recent Posts, CTA ===
+COMPLETED: 2026-03-23T01:33:00+00:00
+FILES CHANGED:
+- app/page.tsx (home page implementation)
+- components/ui/TypingAnimation.tsx (typing animation with framer-motion)
+- components/ui/TypingAnimation.test.tsx (6 tests)
+- components/ui/StatusBadge.tsx (status badge with ping animation)
+- components/ui/ProjectCard.tsx (project card with hover effects)
+- components/ui/BlogPostCard.tsx (blog post card)
+- lib/utils.ts (cn utility for tailwind-merge)
+- lib/data.ts (mock project and blog post data)
+- vitest.config.ts (vitest configuration)
+- package.json (added test scripts)
+
+KEY DECISIONS:
+- Used framer-motion AnimatePresence for typing animation
+- StatusBadge uses CSS animate-ping for ping effect
+- ProjectCard uses CSS transition (not framer-motion) for hover effects
+- All text in Turkish per language rule
+- Build passes, tests pass
+
+DEPENDENCIES ADDED: clsx, tailwind-merge, vitest, @testing-library/react, @vitejs/plugin-react, jsdom
