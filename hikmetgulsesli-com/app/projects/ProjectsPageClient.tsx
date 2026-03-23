@@ -11,15 +11,10 @@ import { cn } from "@/lib/utils";
 export default function ProjectsPageClient() {
   const [activeCategory, setActiveCategory] = useState<CategoryId>("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const filteredProjects = useMemo(() => {
     return filterProjects(allProjects, activeCategory, searchQuery);
   }, [activeCategory, searchQuery]);
-
-  const clearSearch = () => {
-    setSearchQuery("");
-  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -99,9 +94,7 @@ export default function ProjectsPageClient() {
         {/* Projects Grid */}
         <section className="py-12 md:py-16 px-8 md:px-12 lg:px-24 bg-surface-container-low">
           <div className="max-w-[1280px] mx-auto">
-            {isLoading ? (
-              <ProjectGridSkeleton />
-            ) : filteredProjects.length > 0 ? (
+            {filteredProjects.length > 0 ? (
               <>
                 {/* Results count */}
                 <div className="mb-8 font-label text-sm text-on-surface-variant">

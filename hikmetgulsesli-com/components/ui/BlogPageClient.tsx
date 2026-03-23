@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { BlogFilterBar } from "@/components/ui/BlogFilterBar";
 import { ArticleCard } from "@/components/ui/ArticleCard";
 import { allPosts, filterPosts, BlogCategoryId } from "@/lib/blog";
@@ -54,74 +55,39 @@ export function BlogPageClient({ initialCategory = "all" }: BlogPageClientProps)
     setCurrentPage(1);
   };
 
-  if (filteredPosts.length === 0) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <header className="bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant/10 fixed top-0 w-full z-50">
-          <nav className="flex justify-between items-center px-8 h-16">
-            <div className="text-xl font-bold text-primary tracking-widest font-headline">
-              KINETIC_CONSOLE
-            </div>
-          </nav>
-        </header>
-
-        <main className="flex-grow pt-24">
-          <div className="max-w-[1280px] mx-auto px-4 md:px-8 py-12">
-            <BlogFilterBar
-              activeCategory={activeCategory}
-              onCategoryChange={handleCategoryChange}
-              searchQuery={searchQuery}
-              onSearchChange={handleSearchChange}
-            />
-
-            <div className="flex flex-col items-center justify-center py-24 space-y-6">
-              <div className="text-6xl">📝</div>
-              <h2 className="text-2xl font-headline font-bold text-on-surface">
-                Aramanıza uygun yazı bulunamadı
-              </h2>
-              <p className="text-on-surface-variant text-center max-w-md">
-                Farklı anahtar kelimeler deneyebilir veya filtreleri temizleyerek
-                tüm yazıları görüntüleyebilirsiniz.
-              </p>
-              <button
-                onClick={handleClearFilters}
-                className="px-6 py-3 bg-primary text-on-primary font-headline font-semibold rounded-md hover:bg-primary/90 transition-colors"
-              >
-                Filtreleri Temizle
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
+  const isLoading = false;
+  const isEmpty = filteredPosts.length === 0 && !searchQuery && activeCategory === "all";
+  const isNoResults = filteredPosts.length === 0 && (searchQuery || activeCategory !== "all");
 
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant/10 fixed top-0 w-full z-50">
         <nav className="flex justify-between items-center px-8 h-16">
-          <div className="text-xl font-bold text-primary tracking-widest font-headline">
+          <Link
+            href="/"
+            className="text-xl font-bold text-primary tracking-widest font-headline hover:text-primary/80 transition-colors"
+          >
             KINETIC_CONSOLE
-          </div>
+          </Link>
           <div className="hidden md:flex gap-8 items-center">
-            <a
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
+            <Link
               href="/"
+              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
             >
               ANA SAYFA
-            </a>
-            <a
-              className="font-headline uppercase tracking-tighter font-bold text-primary border-b-2 border-primary pb-1"
+            </Link>
+            <Link
               href="/blog"
+              className="font-headline uppercase tracking-tighter font-bold text-primary border-b-2 border-primary pb-1"
             >
               BLOG
-            </a>
-            <a
-              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
+            </Link>
+            <Link
               href="/projects"
+              className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
             >
               PROJELER
-            </a>
+            </Link>
           </div>
         </nav>
       </header>
@@ -146,24 +112,8 @@ export function BlogPageClient({ initialCategory = "all" }: BlogPageClientProps)
           />
 
           <div className="py-8 space-y-8">
-            {/* Featured Post */}
-            {featuredPost && currentPage === 1 && (
-              <div>
-                <ArticleCard post={featuredPost} featured />
-              </div>
-            )}
-
-            {/* Article Grid */}
-            {paginatedPosts.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {paginatedPosts.map((post) => (
-                  <ArticleCard key={post.slug} post={post} />
-                ))}
-              </div>
-            )}
-
             {/* Loading Skeleton */}
-            {filteredPosts.length === 0 && !featuredPost && (
+            {isLoading && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[1, 2, 3, 4].map((i) => (
                   <div
@@ -182,8 +132,8 @@ export function BlogPageClient({ initialCategory = "all" }: BlogPageClientProps)
               </div>
             )}
 
-            {/* Empty State */}
-            {filteredPosts.length === 0 && (
+            {/* Empty State - No posts at all */}
+            {!isLoading && isEmpty && (
               <div className="flex flex-col items-center justify-center py-24 space-y-6">
                 <div className="text-6xl">📝</div>
                 <h2 className="text-2xl font-headline font-bold text-on-surface">
@@ -195,50 +145,91 @@ export function BlogPageClient({ initialCategory = "all" }: BlogPageClientProps)
               </div>
             )}
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 pt-8">
+            {/* No Results State - Filtered to zero */}
+            {!isLoading && isNoResults && (
+              <div className="flex flex-col items-center justify-center py-24 space-y-6">
+                <div className="text-6xl">📝</div>
+                <h2 className="text-2xl font-headline font-bold text-on-surface">
+                  Aramanıza uygun yazı bulunamadı
+                </h2>
+                <p className="text-on-surface-variant text-center max-w-md">
+                  Farklı anahtar kelimeler deneyebilir veya filtreleri temizleyerek
+                  tüm yazıları görüntüleyebilirsiniz.
+                </p>
                 <button
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className={cn(
-                    "px-4 py-2 font-label text-sm rounded-md border transition-all duration-200",
-                    currentPage === 1
-                      ? "border-outline-variant/30 text-on-surface-variant/50 cursor-not-allowed"
-                      : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
-                  )}
+                  onClick={handleClearFilters}
+                  className="px-6 py-3 bg-primary text-on-primary font-headline font-semibold rounded-md hover:bg-primary/90 transition-colors"
                 >
-                  PREV
-                </button>
-
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={cn(
-                      "px-4 py-2 font-label text-sm rounded-md border transition-all duration-200",
-                      currentPage === page
-                        ? "bg-primary text-on-primary border-primary"
-                        : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
-                    )}
-                  >
-                    {String(page).padStart(2, "0")}
-                  </button>
-                ))}
-
-                <button
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                  className={cn(
-                    "px-4 py-2 font-label text-sm rounded-md border transition-all duration-200",
-                    currentPage === totalPages
-                      ? "border-outline-variant/30 text-on-surface-variant/50 cursor-not-allowed"
-                      : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
-                  )}
-                >
-                  NEXT &gt;
+                  Filtreleri Temizle
                 </button>
               </div>
+            )}
+
+            {/* Posts Content */}
+            {!isLoading && !isEmpty && !isNoResults && (
+              <>
+                {/* Featured Post */}
+                {featuredPost && currentPage === 1 && (
+                  <div>
+                    <ArticleCard post={featuredPost} featured />
+                  </div>
+                )}
+
+                {/* Article Grid */}
+                {paginatedPosts.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {paginatedPosts.map((post) => (
+                      <ArticleCard key={post.slug} post={post} />
+                    ))}
+                  </div>
+                )}
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 pt-8">
+                    <button
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className={cn(
+                        "px-4 py-2 font-label text-sm rounded-md border transition-all duration-200",
+                        currentPage === 1
+                          ? "border-outline-variant/30 text-on-surface-variant/50 cursor-not-allowed"
+                          : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
+                      )}
+                    >
+                      PREV
+                    </button>
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={cn(
+                          "px-4 py-2 font-label text-sm rounded-md border transition-all duration-200",
+                          currentPage === page
+                            ? "bg-primary text-on-primary border-primary"
+                            : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
+                        )}
+                      >
+                        {String(page).padStart(2, "0")}
+                      </button>
+                    ))}
+
+                    <button
+                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className={cn(
+                        "px-4 py-2 font-label text-sm rounded-md border transition-all duration-200",
+                        currentPage === totalPages
+                          ? "border-outline-variant/30 text-on-surface-variant/50 cursor-not-allowed"
+                          : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
+                      )}
+                    >
+                      NEXT &gt;
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
