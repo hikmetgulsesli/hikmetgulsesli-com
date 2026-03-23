@@ -19,7 +19,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { success, error } = useToast();
+  const { addToast } = useToast();
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -34,13 +34,13 @@ export function ContactForm() {
         console.log("Form submitted:", data);
       }
 
-      success("Mesajınız gönderildi!", "En kısa sürede size dönüş yapacağım.");
+      addToast({ variant: "success", title: "Mesajınız gönderildi!", description: "En kısa sürede size dönüş yapacağım." });
       reset();
     } catch (err) {
       if (process.env.NODE_ENV !== "production") {
         console.error("Form submission failed:", err);
       }
-      error("Mesaj gönderilemedi", "Lütfen daha sonra tekrar deneyin.");
+      addToast({ variant: "error", title: "Mesaj gönderilemedi", description: "Lütfen daha sonra tekrar deneyin." });
     } finally {
       setIsSubmitting(false);
     }

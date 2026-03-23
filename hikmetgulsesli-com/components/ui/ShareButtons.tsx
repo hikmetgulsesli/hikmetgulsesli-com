@@ -8,12 +8,12 @@ interface ShareButtonsProps {
 }
 
 export function ShareButtons({ title, url }: ShareButtonsProps) {
-  const { success, error } = useToast();
+  const { addToast } = useToast();
 
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      success("Bağlantı kopyalandı!", url);
+      addToast({ variant: "success", title: "Bağlantı kopyalandı!", description: url });
     } catch {
       try {
         const textArea = document.createElement("textarea");
@@ -23,12 +23,12 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
         const copied = document.execCommand("copy");
         document.body.removeChild(textArea);
         if (!copied) {
-          error("Bağlantı kopyalanamadı", "Tarayıcınız panoya kopyalamayı desteklemiyor.");
+          addToast({ variant: "error", title: "Bağlantı kopyalanamadı", description: "Tarayıcınız panoya kopyalamayı desteklemiyor." });
           return;
         }
-        success("Bağlantı kopyalandı!", url);
+        addToast({ variant: "success", title: "Bağlantı kopyalandı!", description: url });
       } catch {
-        error("Bağlantı kopyalanamadı", "Bağlantı panoya kopyalanırken bir sorun oluştu.");
+        addToast({ variant: "error", title: "Bağlantı kopyalanamadı", description: "Bağlantı panoya kopyalanırken bir sorun oluştu." });
       }
     }
   };
