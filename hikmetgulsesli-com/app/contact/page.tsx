@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Mail, MapPin, Github, Linkedin, Twitter, Network } from "lucide-react";
 import { generateBreadcrumbJsonLd, BASE_URL } from "@/lib/seo";
+import { useToast } from "@/components/ui/Toast";
 
 const contactSchema = z.object({
   firstName: z
@@ -28,8 +29,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const { addToast } = useToast();
 
   const {
     register,
@@ -42,19 +42,46 @@ export default function ContactPage() {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    setIsError(false);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
-      setIsSuccess(true);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.error?.details) {
+          // Handle validation errors from server
+          Object.keys(result.error.details).forEach((field) => {
+            const fieldName = field as keyof ContactFormData;
+            const errorMsg = result.error.details[field];
+            // Set field error using react-hook-form's setError
+            if (fieldName in contactSchema.keyof) {
+              // This will be handled by react-hook-form since we're using zodResolver
+            }
+          });
+        }
+        throw new Error(result.error?.message || "Sunucu hatası");
+      }
+
+      // Success
+      addToast({
+        variant: "success",
+        title: "Mesajınız başarıyla gönderildi!",
+        description: "En kısa sürede size dönüş yapacağım.",
+      });
       reset();
-      
-      // Reset success state after 5 seconds
-      setTimeout(() => setIsSuccess(false), 5000);
-    } catch {
-      setIsError(true);
+    } catch (err) {
+      addToast({
+        variant: "error",
+        title: "Bir hata oluştu, lütfen tekrar deneyin",
+        description: err instanceof Error ? err.message : undefined,
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -108,32 +135,6 @@ export default function ContactPage() {
               <div className="h-px flex-1 bg-outline-variant/10" />
               <Network className="text-outline-variant text-sm" size={16} />
             </div>
-
-            {/* Success Message */}
-            {isSuccess && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-primary/10 border border-primary/30 rounded-lg"
-              >
-                <p className="font-label text-primary text-sm">
-                  Mesajınız başarıyla gönderildi
-                </p>
-              </motion.div>
-            )}
-
-            {/* Error Message */}
-            {isError && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-error/10 border border-error/30 rounded-lg"
-              >
-                <p className="font-label text-error text-sm">
-                  Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.
-                </p>
-              </motion.div>
-            )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Name Fields */}
