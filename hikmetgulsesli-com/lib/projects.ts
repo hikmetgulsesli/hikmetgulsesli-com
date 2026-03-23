@@ -1,5 +1,28 @@
 import { Project } from "@/components/ui/ProjectCard";
 
+export interface TechItem {
+  name: string;
+  icon?: string;
+}
+
+export interface ProjectData {
+  slug: string;
+  title: string;
+  shortDescription: string;
+  description?: string;
+  thumbnail: string;
+  images?: string[];
+  category: "web" | "mobile" | "open-source" | "freelance";
+  techStack: TechItem[];
+  githubUrl?: string;
+  liveUrl?: string;
+  featured: boolean;
+  publishedAt: string;
+  status: "draft" | "published" | "archived";
+  client?: string;
+  duration?: string;
+}
+
 export const categories = [
   { id: "all", label: "TÜMÜ" },
   { id: "web", label: "WEB" },
@@ -10,85 +33,184 @@ export const categories = [
 
 export type CategoryId = (typeof categories)[number]["id"];
 
-export const allProjects: Project[] = [
+// In-memory project data (in production, this would come from MDX files via lib/getProjects.ts)
+export const allProjects: ProjectData[] = [
   {
-    slug: "sentinel-dashboard",
-    title: "Sentinel Dashboard",
+    slug: "vesta-dashboard",
+    title: "Vesta Dashboard",
     shortDescription:
-      "Real-time network security monitoring interface with 3D packet visualization.",
+      "Yapay zeka destekli veri analitiği ve görselleştirme platformu. Gerçek zamanlı metrikler ve tahminsel analizler.",
+    description:
+      "Vesta Dashboard, işletmelerin veri odaklı karar alma süreçlerini hızlandırmak için geliştirilmiş kapsamlı bir analitik platformdur. Gerçek zamanlı metrikler, tahminsel analizler ve özelleştirilebilir gösterge panelleri sunar.",
     thumbnail:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAkxyt6DgfFIcoJXJU2ynxAPf_Kh0K2mgXzQYeDmICUPu84aXeppBelsxi9eHFLTEHRF_-mVWEw8R77KKTw3sGULpYXm8-lemSAxX8_HUCjsmMvtnIpDbdhRTsX6RwPi4ZvgVcf59uljbHHUn78WpRklZV2H6IFdfJDHhAADrHD_Nr2AsRtSojOAJ3m5zhMmXoCtdMk3LVXQDwUTsU3DoKFyzA5KRmp0n-JcZ6EVwgS9wJzwWg2lL0WSDmxBKVwFkJFSqbLPLq1YT0",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop",
+    images: ["https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop"],
     category: "web",
-    techStack: ["REACT", "TAILWIND", "D3.JS"],
-    githubUrl: "https://github.com/hikmetgulsesli/sentinel",
-    liveUrl: "https://sentinel-demo.vercel.app",
+    techStack: [
+      { name: "Next.js" },
+      { name: "TypeScript" },
+      { name: "Python" },
+      { name: "TensorFlow" },
+      { name: "PostgreSQL" },
+      { name: "Redis" },
+    ],
+    githubUrl: "https://github.com/hikmetgulsesli/vesta",
+    liveUrl: "https://vesta-dashboard.vercel.app",
+    featured: true,
+    publishedAt: "2024-03-15",
+    status: "published",
+    client: "TechTide AI",
+    duration: "6 ay",
   },
   {
     slug: "claw-open-projects",
     title: "Claw Open Projects",
     shortDescription:
-      "A decentralized collaboration platform for open-source hardware developers.",
+      "Açık kaynak donanım geliştiricileri için merkeziyetsiz işbirliği platformu.",
+    description:
+      "Claw Open Projects, açık kaynak donanım geliştiricileri için tasarlanmış merkeziyetsiz bir işbirliği platformudur. Donanım şemaları, PCB tasarımları ve firmware paylaşımını kolaylaştırır.",
     thumbnail:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDG1iAyEaYNjFG5dorw33MtiEbBOuinKJdGswv0LIPOFmD3tbOUhX1bmkHeU89vZekUXNoGxiP0yDZEo3dTFdPIfNogbNY2FbEoJ1n-SXJVWGti_b6xOABo5vWc8ORNl_g7tELU93mYjGuYtirFSBW9qI-AkAQzuZ4rNvzY1pri1o07WSOLNR0PwHJ4WU0uI_-u2Z-VkjjnhSmZrDwk11G8U9z11EHfeafC3ijAn1eFWK-H5IQm-kaKXD9hW8QNARmI2Mh2EAhXxmo",
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=450&fit=crop",
+    images: ["https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=450&fit=crop"],
     category: "open-source",
-    techStack: ["NEXT.JS", "TYPESCRIPT", "POSTGRES"],
+    techStack: [
+      { name: "Next.js" },
+      { name: "TypeScript" },
+      { name: "PostgreSQL" },
+      { name: "Docker" },
+      { name: "GraphQL" },
+    ],
     githubUrl: "https://github.com/hikmetgulsesli/claw",
-    liveUrl: "https://claw-demo.vercel.app",
+    liveUrl: "https://claw-open.vercel.app",
+    featured: true,
+    publishedAt: "2024-06-20",
+    status: "published",
   },
   {
     slug: "ai-agent-platform",
     title: "AI Agent Platform",
     shortDescription:
-      "Autonomous agent orchestration framework for complex business workflows.",
+      "Karmaşık iş süreçleri için otonom agent orkestrasyon framework'ü.",
+    description:
+      "AI Agent Platform, iş süreçlerini otomatikleştirmek için tasarlanmış otonom agent orkestrasyon framework'üdür. LLM tabanlı agent'lar, görevleri planlayabilir, araçları kullanabilir ve birbirleriyle işbirliği yapabilir.",
     thumbnail:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDg897AAyV5wtVBrsS9VplMPCXPsKwOrPur_J_KVH6yzThF0cdjJD-5D5YVQGaXYsGexWyfXVjnGLIQ8LT-7ENc0yTloPE47RbqoQuzdjNcWb0GKh_9SXKmUuoYfmwn1zRiT33yfi3K8_xp63p_g9XuiEWgPxwtlqF0myc-7KhyACXFYnHpcaDvgHtXpkDsuZSQESbwBUcadfC9qVC9oREw5JuhcyrV57_fjLokx_ghnmrC09eq-o-oxp8c5ciS1lwmWbI_y6xxDik",
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=450&fit=crop",
+    images: ["https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=450&fit=crop"],
     category: "web",
-    techStack: ["PYTHON", "LANGCHAIN", "FASTAPI"],
+    techStack: [
+      { name: "Python" },
+      { name: "LangChain" },
+      { name: "FastAPI" },
+      { name: "React" },
+      { name: "Redis" },
+    ],
     githubUrl: "https://github.com/hikmetgulsesli/ai-agent",
-    liveUrl: "https://ai-agent-demo.vercel.app",
+    liveUrl: "https://ai-agent-platform.vercel.app",
+    featured: true,
+    publishedAt: "2024-09-10",
+    status: "published",
+    client: "AutoFlow Systems",
+    duration: "8 ay",
   },
   {
     slug: "fintech-mobile-app",
     title: "Fintech Mobile App",
     shortDescription:
-      "Cross-platform mobile banking application with biometric authentication.",
+      "Biyometrik kimlik doğrulama ile çapraz platform mobil bankacılık uygulaması.",
+    description:
+      "Fintech Mobile App, modern bankacılık ihtiyaçları için geliştirilmiş güvenli ve kullanımı kolay bir mobil uygulamadır. Biyometrik kimlik doğrulama, anlık transferler ve yatırım takibi özellikleri sunar.",
     thumbnail:
       "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=450&fit=crop",
+    images: ["https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=450&fit=crop"],
     category: "mobile",
-    techStack: ["REACT NATIVE", "NODE.JS", "POSTGRES"],
+    techStack: [
+      { name: "React Native" },
+      { name: "Node.js" },
+      { name: "PostgreSQL" },
+    ],
     githubUrl: "https://github.com/hikmetgulsesli/fintech",
     liveUrl: "https://fintech-demo.vercel.app",
+    featured: false,
+    publishedAt: "2024-11-05",
+    status: "published",
   },
   {
     slug: "ecommerce-platform",
     title: "E-Commerce Platform",
     shortDescription:
-      "Full-stack e-commerce solution with real-time inventory management.",
+      "Gerçek zamanlı envanter yönetimi ile tam kapsamlı e-ticaret çözümü.",
+    description:
+      "E-Commerce Platform, online satış işletmeleri için geliştirilmiş kapsamlı bir e-ticaret çözümüdür. Gerçek zamanlı envanter takibi, çoklu ödeme yöntemleri ve gelişmiş analitik paneller sunar.",
     thumbnail:
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=450&fit=crop",
+    images: ["https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=450&fit=crop"],
     category: "freelance",
-    techStack: ["NEXT.JS", "STRIPE", "MONGODB"],
+    techStack: [
+      { name: "Next.js" },
+      { name: "Stripe" },
+      { name: "MongoDB" },
+    ],
     githubUrl: "https://github.com/hikmetgulsesli/ecommerce",
     liveUrl: "https://ecommerce-demo.vercel.app",
+    featured: false,
+    publishedAt: "2024-08-12",
+    status: "published",
   },
   {
     slug: "devtools-cli",
     title: "DevTools CLI",
     shortDescription:
-      "Open-source command-line toolkit for developer productivity.",
+      "Geliştirici verimliliği için açık kaynak komut satırı araç seti.",
+    description:
+      "DevTools CLI, geliştiricilerin günlük iş akışlarını hızlandırmak için tasarlanmış açık kaynak bir komut satırı araçları koleksiyonudur. Proje şablonları, otomatik test çalıştırma ve deployment script'leri içerir.",
     thumbnail:
       "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=450&fit=crop",
+    images: ["https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=450&fit=crop"],
     category: "open-source",
-    techStack: ["RUST", "CLI", "OPEN SOURCE"],
+    techStack: [
+      { name: "Rust" },
+      { name: "CLI" },
+    ],
     githubUrl: "https://github.com/hikmetgulsesli/devtools",
+    featured: false,
+    publishedAt: "2024-05-30",
+    status: "published",
   },
 ];
 
+// Convert ProjectData to Project (for UI components that need string[] techStack)
+export function toProject(project: ProjectData): Project {
+  return {
+    slug: project.slug,
+    title: project.title,
+    shortDescription: project.shortDescription,
+    thumbnail: project.thumbnail,
+    category: project.category,
+    techStack: project.techStack.map((t) => t.name),
+    githubUrl: project.githubUrl,
+    liveUrl: project.liveUrl,
+  };
+}
+
+export function getAllProjects(): ProjectData[] {
+  return allProjects.filter((p) => p.status === "published");
+}
+
+export function getProjectBySlug(slug: string): ProjectData | undefined {
+  return allProjects.find((p) => p.slug === slug && p.status === "published");
+}
+
+export function getFeaturedProjects(max: number = 6): ProjectData[] {
+  return allProjects
+    .filter((p) => p.featured && p.status === "published")
+    .slice(0, max);
+}
+
 export function filterProjects(
-  projects: Project[],
+  projects: ProjectData[],
   category: CategoryId,
   searchQuery: string
-): Project[] {
+): ProjectData[] {
   return projects.filter((project) => {
     const matchesCategory =
       category === "all" || project.category === category;
@@ -100,4 +222,51 @@ export function filterProjects(
 
     return matchesCategory && matchesSearch;
   });
+}
+
+export interface PaginatedProjects {
+  data: ProjectData[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
+export function getPaginatedProjects(
+  page: number = 1,
+  limit: number = 10,
+  category?: CategoryId,
+  search?: string
+): PaginatedProjects {
+  let filtered = getAllProjects();
+  
+  if (category && category !== "all") {
+    filtered = filtered.filter((p) => p.category === category);
+  }
+  
+  if (search) {
+    const searchLower = search.toLowerCase();
+    filtered = filtered.filter(
+      (p) =>
+        p.title.toLowerCase().includes(searchLower) ||
+        p.shortDescription.toLowerCase().includes(searchLower)
+    );
+  }
+  
+  const total = filtered.length;
+  const totalPages = Math.ceil(total / limit);
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+  
+  return {
+    data: filtered.slice(startIndex, endIndex),
+    page,
+    limit,
+    total,
+    totalPages,
+    hasNext: page < totalPages,
+    hasPrev: page > 1,
+  };
 }

@@ -5,7 +5,7 @@ import { Search, X } from "lucide-react";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { FilterBar } from "@/components/ui/FilterBar";
 import { ProjectGridSkeleton } from "@/components/ui/SkeletonCard";
-import { allProjects, filterProjects, categories, CategoryId } from "@/lib/projects";
+import { getAllProjects, filterProjects, toProject, CategoryId } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
 export default function ProjectsPageClient() {
@@ -13,7 +13,8 @@ export default function ProjectsPageClient() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredProjects = useMemo(() => {
-    return filterProjects(allProjects, activeCategory, searchQuery);
+    const allProjectsData = getAllProjects();
+    return filterProjects(allProjectsData, activeCategory, searchQuery);
   }, [activeCategory, searchQuery]);
 
   return (

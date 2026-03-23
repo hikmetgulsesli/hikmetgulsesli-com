@@ -16,12 +16,38 @@ export interface Project {
   liveUrl?: string;
 }
 
+export interface ProjectData {
+  slug: string;
+  title: string;
+  shortDescription: string;
+  description?: string;
+  thumbnail: string;
+  images?: string[];
+  category: "web" | "mobile" | "open-source" | "freelance";
+  techStack: { name: string; icon?: string }[];
+  githubUrl?: string;
+  liveUrl?: string;
+  featured: boolean;
+  publishedAt: string;
+  status: "draft" | "published" | "archived";
+  client?: string;
+  duration?: string;
+}
+
 interface ProjectCardProps {
-  project: Project;
+  project: Project | ProjectData;
   className?: string;
 }
 
+function isProjectData(project: Project | ProjectData): project is ProjectData {
+  return Array.isArray(project.techStack) && project.techStack.length > 0 && typeof project.techStack[0] === 'object';
+}
+
 export function ProjectCard({ project, className = "" }: ProjectCardProps) {
+  const techStackItems = isProjectData(project) 
+    ? project.techStack.map(t => typeof t === 'string' ? t : t.name)
+    : project.techStack;
+
   return (
     <div
       className={cn(
@@ -54,7 +80,7 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
 
           {/* Tech Stack Pills */}
           <div className="flex flex-wrap gap-2 pt-2">
-            {project.techStack.slice(0, 4).map((tech) => (
+            {techStackItems.slice(0, 4).map((tech) => (
               <span
                 key={tech}
                 className="px-3 py-1 bg-surface-container-lowest rounded-full font-label text-[10px] text-on-surface-variant uppercase tracking-wider"
