@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Header } from "@/components/ui/Header";
+import { Footer } from "@/components/ui/Footer";
+import { Providers } from "@/components/Providers";
+import { PageTransition } from "@/components/ui/PageTransition";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -24,7 +28,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hikmet Güleşli | Full-Stack Developer",
+  title: {
+    default: "Hikmet Güleşli",
+    template: "%s | Hikmet Güleşli",
+  },
   description:
     "Hikmet Güleşli - Full-Stack Developer, UI/UX Designer. Modern web teknolojileri ile dijital ürünler geliştiriyorum.",
   keywords: [
@@ -37,6 +44,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Hikmet Güleşli", url: "https://hikmetgulsesli.com" }],
   creator: "Hikmet Güleşli",
+  metadataBase: new URL("https://hikmetgulsesli.com"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "tr_TR",
@@ -45,15 +56,37 @@ export const metadata: Metadata = {
     title: "Hikmet Güleşli | Full-Stack Developer",
     description:
       "Hikmet Güleşli - Full-Stack Developer, UI/UX Designer. Modern web teknolojileri ile dijital ürünler geliştiriyorum.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Hikmet Güleşli - Full-Stack Developer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@hikmetgulsesli",
     creator: "@hikmetgulsesli",
+    title: "Hikmet Güleşli | Full-Stack Developer",
+    description:
+      "Hikmet Güleşli - Full-Stack Developer, UI/UX Designer.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 
@@ -67,7 +100,15 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col antialiased`}
       >
-        {children}
+        <Providers>
+          <Header />
+          <PageTransition>
+            <main id="main-content" className="flex-grow pt-16">
+              {children}
+            </main>
+          </PageTransition>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
