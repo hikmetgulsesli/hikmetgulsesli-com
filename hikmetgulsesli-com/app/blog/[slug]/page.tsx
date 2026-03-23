@@ -1,10 +1,11 @@
+import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { generateArticleJsonLd, generateBreadcrumbJsonLd } from "@/lib/seo";
 import { ShareButtons } from "@/components/ui/ShareButtons";
 
 interface BlogPostPageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 const blogPostsData: Record<string, {
@@ -82,7 +83,7 @@ RSC, modern web geliştirmenin geleceği yönünde önemli bir adım.`,
 };
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const slug = params.slug;
   const post = blogPostsData[slug];
   if (!post) return { title: "Yazı Bulunamadı" };
   return {
@@ -97,18 +98,18 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = await params;
+  const slug = params.slug;
   const post = blogPostsData[slug];
 
   if (!post) {
     return (
-      <main className="flex-grow flex items-center justify-center pt-32">
+      <div className="flex-grow flex items-center justify-center pt-32">
         <div className="text-center">
           <h1 className="font-headline text-4xl font-bold text-primary mb-4">404</h1>
           <p className="text-on-surface-variant mb-6">Aradığınız yazı mevcut değil.</p>
           <Link href="/blog" className="px-6 py-3 bg-primary text-[var(--color-on-primary)] rounded-lg font-bold">Blog'a Dön</Link>
         </div>
-      </main>
+      </div>
     );
   }
 
@@ -132,13 +133,68 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   ]);
 
   const renderContent = (content: string) => {
-    return content.trim().split("\n").map((line, i) => {
-      if (line.startsWith("## ")) return <h2 key={i} className="font-headline text-2xl font-bold mt-12 mb-4 text-primary">{line.replace("## ", "")}</h2>;
-      if (line.startsWith("### ")) return <h3 key={i} className="font-headline text-xl font-semibold mt-8 mb-3">{line.replace("### ", "")}</h3>;
-      if (line.startsWith("- ")) return <li key={i} className="ml-6 mb-2 text-on-surface-variant">{line.replace("- ", "")}</li>;
-      if (line.trim() === "") return <div key={i} className="h-4" />;
-      return <p key={i} className="text-on-surface-variant leading-relaxed mb-4">{line}</p>;
+    const lines = content.trim().split("\n");
+    const elements = [] as React.ReactElement[];
+    let currentListItems: string[] = [];
+    let keyCounter = 0;
+
+    const flushList = () => {
+      if (currentListItems.length === 0) return;
+      const listKey = `list-${keyCounter++}`;
+      elements.push(
+        <ul key={listKey} className="list-disc ml-6 mb-4 text-on-surface-variant">
+          {currentListItems.map((item, idx) => (
+            <li key={idx} className="mb-2">{item}</li>
+          ))}
+        </ul>
+      );
+      currentListItems = [];
+    };
+
+    lines.forEach((line) => {
+      const trimmed = line.trim();
+
+      if (line.startsWith("## ")) {
+        flushList();
+        elements.push(
+          <h2 key={keyCounter++} className="font-headline text-2xl font-bold mt-12 mb-4 text-primary">
+            {line.replace("## ", "")}
+          </h2>
+        );
+        return;
+      }
+
+      if (line.startsWith("### ")) {
+        flushList();
+        elements.push(
+          <h3 key={keyCounter++} className="font-headline text-xl font-semibold mt-8 mb-3">
+            {line.replace("### ", "")}
+          </h3>
+        );
+        return;
+      }
+
+      if (line.startsWith("- ")) {
+        currentListItems.push(line.replace("- ", ""));
+        return;
+      }
+
+      if (trimmed === "") {
+        flushList();
+        elements.push(<div key={keyCounter++} className="h-4" />);
+        return;
+      }
+
+      flushList();
+      elements.push(
+        <p key={keyCounter++} className="text-on-surface-variant leading-relaxed mb-4">
+          {line}
+        </p>
+      );
     });
+
+    flushList();
+    return elements;
   };
 
   return (
@@ -146,7 +202,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: articleSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbSchema }} />
       <div className="fixed inset-0 pointer-events-none z-[100] scanline opacity-30" />
-      <main className="flex-grow pt-32 pb-24 px-6 md:px-12">
+      <div className="flex-grow pt-32 pb-24 px-6 md:px-12">
         <article className="max-w-3xl mx-auto">
           <nav className="flex items-center gap-2 mb-8 text-sm font-label" aria-label="Breadcrumb">
             <Link href="/" className="text-on-surface-variant hover:text-primary transition-colors">Ana Sayfa</Link>
@@ -178,7 +234,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <Link href="/blog" className="inline-flex items-center gap-2 text-primary hover:underline font-label">← Tüm Yazılara Dön</Link>
           </div>
         </article>
-      </main>
+      </div>
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useRef, ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, XCircle, AlertTriangle, Info, X } from "lucide-react";
 
@@ -40,8 +40,14 @@ interface ToastProviderProps {
 
 export function ToastProvider({ children }: ToastProviderProps) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const timeoutRefs = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
 
   const removeToast = useCallback((id: string) => {
+    const timeoutId = timeoutRefs.current.get(id);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutRefs.current.delete(id);
+    }
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
@@ -51,9 +57,10 @@ export function ToastProvider({ children }: ToastProviderProps) {
     setToasts((prev) => [...prev.slice(-2), newToast]);
 
     if (toast.duration !== 0) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         removeToast(id);
       }, toast.duration || 5000);
+      timeoutRefs.current.set(id, timeoutId);
     }
   }, [removeToast]);
 
@@ -88,7 +95,7 @@ interface ToastContainerProps {
 
 function ToastContainer({ toasts, removeToast }: ToastContainerProps) {
   return (
-    <div className="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 max-w-md">
+    <div className="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 max-w-md" role="region" aria-label="Bildirimler" aria-live="polite">
       <AnimatePresence mode="popLayout">
         {toasts.map((toast) => (
           <ToastItem key={toast.id} toast={toast} onClose={() => removeToast(toast.id)} />
@@ -121,6 +128,8 @@ function ToastItem({ toast, onClose }: ToastItemProps) {
   return (
     <motion.div
       layout
+      role="status"
+      aria-live="polite"
       initial={{ opacity: 0, x: 100, scale: 0.9 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       exit={{ opacity: 0, x: 100, scale: 0.9 }}

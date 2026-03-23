@@ -25,7 +25,7 @@ function TimelineItem({ date, title, company, description, isCurrent = false, in
       className="relative pl-12 pb-16 last:pb-0"
     >
       <div className={`absolute left-[-5px] top-2 w-[11px] h-[11px] rounded-full ${isCurrent ? "bg-primary shadow-[0_0_10px_rgba(78,222,163,1)]" : "bg-surface-container-highest border border-primary/50"}`} />
-      {index < 2 && <div className="absolute left-[0px] top-5 bottom-0 w-px bg-primary/30" />}
+      {index < experiences.length - 1 && <div className="absolute left-[0px] top-5 bottom-0 w-px bg-primary/30" />}
       <span className={`font-label text-xs px-3 py-1 rounded-full mb-4 inline-block border ${isCurrent ? "text-primary-fixed-dim bg-primary/10 border-primary/20" : "text-slate-500 bg-surface-container-high border-outline-variant/20"}`}>
         {date}
       </span>
@@ -88,7 +88,7 @@ export function AboutContent() {
   return (
     <>
       <div className="fixed inset-0 pointer-events-none z-[100] scanline opacity-30" />
-      <main className="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+      <div className="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
         <section className="flex flex-col md:flex-row items-center gap-12 mb-24">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="relative group">
             <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/40 transition-all duration-500" />
@@ -131,12 +131,16 @@ export function AboutContent() {
                 {learningTopics.map((topic) => <span key={topic} className="px-3 py-1 bg-surface-container-high text-xs font-label text-on-surface-variant border border-outline-variant/30">{topic}</span>)}
               </div>
             </div>
-            <button className="w-full bg-primary text-[var(--color-on-primary)] font-headline font-bold py-4 rounded-lg shadow-[0_0_25px_rgba(78,222,163,0.4)] hover:shadow-[0_0_40px_rgba(78,222,163,0.6)] transition-all flex items-center justify-center gap-3 active:scale-95">
+            <a
+              href="/cv.pdf"
+              download
+              className="w-full bg-primary text-[var(--color-on-primary)] font-headline font-bold py-4 rounded-lg shadow-[0_0_25px_rgba(78,222,163,0.4)] hover:shadow-[0_0_40px_rgba(78,222,163,0.6)] transition-all flex items-center justify-center gap-3 active:scale-95"
+            >
               <span className="text-lg">⬇</span><span>CV'YI İNDİR</span>
-            </button>
+            </a>
           </div>
         </div>
-      </main>
+      </div>
     </>
   );
 }

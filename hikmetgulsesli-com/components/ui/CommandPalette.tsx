@@ -98,12 +98,14 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
       switch (e.key) {
         case "ArrowDown":
           e.preventDefault();
+          if (filteredItems.length === 0) break;
           setSelectedIndex((prev) =>
             prev < filteredItems.length - 1 ? prev + 1 : 0
           );
           break;
         case "ArrowUp":
           e.preventDefault();
+          if (filteredItems.length === 0) break;
           setSelectedIndex((prev) =>
             prev > 0 ? prev - 1 : filteredItems.length - 1
           );
@@ -148,7 +150,12 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
       />
 
       {/* Command Palette */}
-      <div className="relative w-full max-w-xl mx-4 bg-surface-container-high border border-outline-variant/30 rounded-xl shadow-2xl overflow-hidden">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Komut paleti"
+        className="relative w-full max-w-xl mx-4 bg-surface-container-high border border-outline-variant/30 rounded-xl shadow-2xl overflow-hidden"
+      >
         {/* Search Input */}
         <div className="flex items-center gap-3 px-4 py-4 border-b border-outline-variant/20">
           <Search className="w-5 h-5 text-primary" />

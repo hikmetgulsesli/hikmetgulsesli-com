@@ -55,13 +55,13 @@ export default function BlogPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbSchema }} />
       <div className="fixed inset-0 pointer-events-none z-[100] scanline opacity-30" />
-      <main className="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-6xl mx-auto">
+      <div className="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-6xl mx-auto">
         <section className="mb-12">
           <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight mb-4">// Blog</h1>
           <p className="text-on-surface-variant text-lg max-w-2xl">Web geliştirme, programlama ve teknoloji hakkında düşüncelerim.</p>
         </section>
         <BlogClient posts={blogPosts} />
-      </main>
+      </div>
     </>
   );
 }

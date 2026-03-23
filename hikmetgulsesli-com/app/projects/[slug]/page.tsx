@@ -28,7 +28,7 @@ const projectsData: Record<string, {
     client: "TechTide AI",
     duration: "6 ay",
     githubUrl: "https://github.com/hikmetgulsesli/vesta",
-    liveUrl: "#",
+    liveUrl: "https://vesta-demo.vercel.app",
   },
   "e-ticaret-api": {
     title: "E-Ticaret API",
@@ -62,13 +62,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   if (!project) {
     return (
-      <main className="flex-grow flex items-center justify-center pt-32">
+      <div className="flex-grow flex items-center justify-center pt-32">
         <div className="text-center">
           <h1 className="font-headline text-4xl font-bold text-primary mb-4">404</h1>
           <p className="text-on-surface-variant mb-6">Aradığınız proje mevcut değil.</p>
           <Link href="/projects" className="px-6 py-3 bg-primary text-[var(--color-on-primary)] rounded-lg font-bold">Projelere Dön</Link>
         </div>
-      </main>
+      </div>
     );
   }
 
@@ -82,7 +82,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbSchema }} />
       <div className="fixed inset-0 pointer-events-none z-[100] scanline opacity-30" />
-      <main className="flex-grow pt-24 pb-24">
+      <div className="flex-grow pt-24 pb-24">
         <div className="w-full h-[400px] bg-surface-container-low relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent" />
           <div className="absolute inset-0 flex items-center justify-center">
@@ -136,7 +136,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <Link href="/projects" className="inline-flex items-center gap-2 text-primary hover:underline font-label">← Tüm Projelere Dön</Link>
           </div>
         </div>
-      </main>
+      </div>
     </>
   );
 }

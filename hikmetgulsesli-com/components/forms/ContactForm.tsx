@@ -27,11 +27,23 @@ export function ContactForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Form submitted:", data);
-    success("Mesajınız gönderildi!", "En kısa sürede size dönüş yapacağım.");
-    reset();
-    setIsSubmitting(false);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      if (process.env.NODE_ENV !== "production") {
+        console.log("Form submitted:", data);
+      }
+
+      success("Mesajınız gönderildi!", "En kısa sürede size dönüş yapacağım.");
+      reset();
+    } catch (err) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Form submission failed:", err);
+      }
+      error("Mesaj gönderilemedi", "Lütfen daha sonra tekrar deneyin.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
