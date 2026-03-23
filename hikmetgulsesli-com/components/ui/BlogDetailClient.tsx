@@ -4,12 +4,11 @@ import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, ExternalLink, ArrowLeft, ArrowRight, Calendar, Clock, X, ChevronDown, ChevronUp, Link2, Twitter, Linkedin, Check, Copy } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, X, ChevronDown, ChevronUp, Link2, Twitter, Linkedin, Check } from "lucide-react";
 import { BlogDetailPost, getRelatedPosts, parseTOC } from "@/lib/blog-detail";
-import { TableOfContents, TOCItem } from "@/components/ui/TableOfContents";
+import { TableOfContents } from "@/components/ui/TableOfContents";
 import { ArticleCard } from "@/components/ui/ArticleCard";
 import { CodeBlock } from "@/components/ui/CodeBlock";
-import { cn } from "@/lib/utils";
 
 interface BlogDetailClientProps {
   post: BlogDetailPost;
@@ -247,12 +246,12 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
   const shareOnTwitter = useCallback(() => {
     const url = encodeURIComponent(window.location.href);
     const text = encodeURIComponent(post.title);
-    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, "_blank");
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, "_blank", "noopener,noreferrer");
   }, [post.title]);
 
   const shareOnLinkedIn = useCallback(() => {
     const url = encodeURIComponent(window.location.href);
-    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, "_blank");
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, "_blank", "noopener,noreferrer");
   }, []);
 
   return (

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { getBlogDetail, getAllBlogSlugs, blogDetails } from "@/lib/blog-detail";
 import BlogDetailClient from "@/components/ui/BlogDetailClient";
@@ -136,10 +137,11 @@ function BlogNotFound() {
                 >
                   {p.featuredImage && (
                     <div className="aspect-video w-full mb-3 rounded-lg overflow-hidden bg-surface-container-high relative">
-                      <img
+                      <Image
                         src={p.featuredImage}
                         alt={p.title}
-                        className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-300"
+                        fill
+                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
                       />
                     </div>
                   )}

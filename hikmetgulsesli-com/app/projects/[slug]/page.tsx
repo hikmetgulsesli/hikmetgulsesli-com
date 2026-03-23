@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import { getProjectDetail, getAllProjectSlugs, projectDetails } from "@/lib/project-detail";
 import ProjectDetailClient from "./ProjectDetailClient";
 import { ProjectCard } from "@/components/ui/ProjectCard";
@@ -57,43 +59,43 @@ function ProjectNotFound() {
       {/* Header Navigation */}
       <header className="bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant/10 fixed top-0 w-full z-50">
         <nav className="flex justify-between items-center px-8 h-16 max-w-[1280px] mx-auto">
-          <a
+          <Link
             href="/"
             className="text-xl font-bold text-primary tracking-widest font-headline hover:text-primary/80 transition-colors"
           >
             KINETIC_CONSOLE
-          </a>
+          </Link>
           <div className="hidden md:flex gap-8 items-center">
-            <a
+            <Link
               href="/"
               className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
             >
               ANA SAYFA
-            </a>
-            <a
+            </Link>
+            <Link
               href="/projects"
               className="font-headline uppercase tracking-tighter font-bold text-primary border-b-2 border-primary pb-1"
             >
               PROJELER
-            </a>
-            <a
+            </Link>
+            <Link
               href="/blog"
               className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
             >
               BLOG
-            </a>
-            <a
+            </Link>
+            <Link
               href="/about"
               className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
             >
               HAKKIMDA
-            </a>
-            <a
+            </Link>
+            <Link
               href="/contact"
               className="font-headline uppercase tracking-tighter font-bold text-on-surface-variant hover:text-primary transition-colors"
             >
               İLETİŞİM
-            </a>
+            </Link>
           </div>
         </nav>
       </header>
@@ -122,33 +124,34 @@ function ProjectNotFound() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {allProjects.map((project) => (
-                <a
+                <Link
                   key={project.slug}
                   href={`/projects/${project.slug}`}
                   className="block p-4 bg-surface-container rounded-lg border border-outline-variant/20 hover:border-primary transition-all duration-200 group"
                 >
                   <div className="aspect-video w-full mb-3 rounded-lg overflow-hidden bg-surface-container-high relative">
-                    <img
+                    <Image
                       src={project.thumbnail}
                       alt={project.title}
-                      className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-300"
+                      fill
+                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
                     />
                   </div>
                   <h3 className="font-headline text-sm font-semibold uppercase tracking-tight text-on-surface group-hover:text-primary transition-colors">
                     {project.title}
                   </h3>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
 
           {/* Back to Projects */}
-          <a
+          <Link
             href="/projects"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors font-headline font-semibold uppercase tracking-tight"
           >
             Tüm Projeleri Gör
-          </a>
+          </Link>
         </div>
       </main>
 

@@ -37,7 +37,8 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
     return () => observer.disconnect();
   }, [items]);
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -54,8 +55,9 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
       <ul className="space-y-2">
         {items.map((item) => (
           <li key={item.id}>
-            <button
-              onClick={() => scrollToSection(item.id)}
+            <a
+              href={`#${item.id}`}
+              onClick={(e) => scrollToSection(e, item.id)}
               className={cn(
                 "block w-full text-left py-1 font-label text-xs transition-all duration-200 hover:text-primary",
                 item.level === 2 ? "pl-0" : "pl-4",
@@ -65,7 +67,7 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
               )}
             >
               {item.title}
-            </button>
+            </a>
           </li>
         ))}
       </ul>
