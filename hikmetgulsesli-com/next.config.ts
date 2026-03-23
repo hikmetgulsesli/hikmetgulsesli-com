@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   output: 'export',
   distDir: 'dist',
-  experimental: {
-    mdxRs: false,
+  turbopack: {
+    root: __dirname,
   },
 };
 
