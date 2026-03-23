@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Linkedin, Mail, ChevronDown, ArrowRight } from "lucide-react";
+import { Github, Linkedin, Mail, ChevronDown, ArrowRight, Twitter } from "lucide-react";
 import { TypingAnimation } from "@/components/ui/TypingAnimation";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { ProjectCard } from "@/components/ui/ProjectCard";
@@ -49,6 +49,8 @@ export default function Home() {
               CONTACT
             </Link>
           </div>
+        </nav>
+      </header>
 
       {/* Main Content */}
       <main className="flex-grow pt-16">
@@ -278,7 +280,7 @@ export default function Home() {
             />
           </svg>
         </div>
-      </section>
+      </footer>
 
       {/* Featured Projects */}
       <section className="py-24 px-6 md:px-24 bg-surface-container-low">
