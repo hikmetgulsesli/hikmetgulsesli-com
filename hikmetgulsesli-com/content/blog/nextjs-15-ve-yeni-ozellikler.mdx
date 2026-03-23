@@ -1,0 +1,127 @@
+---
+title: "Next.js 15 ve Yenilikler"
+slug: "nextjs-15-ve-yeni-ozellikler"
+excerpt: "Next.js 15 ile gelen yeni özellikler ve geliştirme deneyimi iyileştirmeleri. React 19 desteği, gelişmiş caching ve daha fazlası."
+featuredImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop"
+category: "teknik"
+tags: ["Next.js", "React", "TypeScript", "Web Geliştirme"]
+readTime: 8
+publishedAt: "2026-03-15"
+author:
+  name: "Hikmet Güleşli"
+  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+---
+
+## Giriş
+
+Next.js 15, React 19 desteği ve birçok yeni özellik ile birlikte geliyor. Bu sürüm, geliştirici deneyimini önemli ölçüde iyileştiriyor ve performans optimizasyonları sunuyor.
+
+## React 19 Desteği
+
+Next.js 15, React 19 ile tam uyumluluk sağlıyor. Bu, geliştiricilerin en son React özelliklerinden yararlanabileceği anlamına geliyor.
+
+### Yeni React Özellikleri
+
+React 19 ile birlikte gelen en önemli özellikler:
+
+- **Actions** - Form submit ve data mutation için built-in destek
+- **use() Hook** - Promise'leri ve context'i render sırasında okuma
+- **Ref as Prop** - DOM ref'lerini doğrudan child olarak geçirme
+- **Destructuring Assignment** - Server Component'lerde prop destructuring
+
+```typescript
+// React 19 ile gelen yeni form handling
+async function submitForm(formData: FormData) {
+  'use server';
+  const email = formData.get('email');
+  await db.subscribers.create({ email });
+  revalidatePath('/');
+}
+
+export default function SubscribeForm() {
+  return (
+    <form action={submitForm}>
+      <input name="email" type="email" required />
+      <button type="submit">Abone Ol</button>
+    </form>
+  );
+}
+```
+
+## Geliştirici Deneyimi İyileştirmeleri
+
+### Hata Mesajları
+
+Next.js 15, hata mesajlarını daha anlaşılır ve eyleme dönüştürülebilir hale getiriyor. Artık hatalar, doğrudan sorunun kaynağını ve olası çözümleri gösteriyor.
+
+### Turbopack Genel Kullanıma Sunuluyor
+
+Webpack yerine kullanılan Turbopack, artık production'da da varsayılan olarak kullanılıyor. Bu, build sürelerinde önemli iyileştirmeler sağlıyor.
+
+```bash
+# Build süresi karşılaştırması
+# Webpack: ~45 saniye
+# Turbopack: ~12 saniye
+```
+
+## Caching Stratejisi
+
+### fetch() Caching
+
+Next.js 15, fetch istekleri için daha granüler caching kontrolü sunuyor:
+
+```typescript
+// Her istek için ayrı cache stratejisi
+await fetch('https://api.example.com/data', {
+  next: { revalidate: 3600 } // 1 saat
+});
+
+await fetch('https://api.example.com/posts', {
+  cache: 'no-store' // Hiç cache'lenmez
+});
+```
+
+## Static Export İyileştirmeleri
+
+`output: 'export'` modu artık daha fazla Next.js özelliğini destekliyor:
+
+- Image Optimization
+- ISR (Incremental Static Regeneration)
+- Middleware
+
+## Performance İyileştirmeleri
+
+### Smaller Bundle Size
+
+Next.js 15, React 19'un smaller bundle avantajlarından yararlanıyor. Ortalama bundle boyutu %15 oranında azaldı.
+
+### Faster hydration
+
+Server Component'lerin hydration süresi önemli ölçüde kısaldı. Kullanıcılar sayfaları daha hızlı interactive hale getirebiliyor.
+
+## Migration Rehberi
+
+### 14'ten 15'e Geçiş
+
+1. Next.js sürümünü güncelleyin:
+```bash
+npm install next@15 react@19 react-dom@19
+```
+
+2. TypeScript tiplerini güncelleyin:
+```bash
+npm install -D @types/react@19 @types/react-dom@19
+```
+
+3. next.config.ts dosyasını kontrol edin:
+```typescript
+const nextConfig: NextConfig = {
+  // Mevcut config burada
+};
+```
+
+## Sonuç
+
+Next.js 15, hem geliştirici deneyimi hem de performans açısından önemli iyileştirmeler getiriyor. React 19 desteği ile birlikte, modern web geliştirme için güçlü bir temel sunuyor.
+
+Güncelleme yaparken, önce development ortamında test etmeyi ve breaking changes listesini incelemeyi unutmayın.

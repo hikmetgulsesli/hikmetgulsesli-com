@@ -1,0 +1,262 @@
+---
+title: "React Server Components"
+slug: "react-server-components"
+excerpt: "React Server Components mimarisi ve uygulama performansına etkileri. Client vs Server component karşılaştırması ve migration stratejileri."
+featuredImage: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&h=630&fit=crop"
+category: "teknik"
+tags: ["React", "Next.js", "Web Geliştirme", "Performans"]
+readTime: 12
+publishedAt: "2026-03-05"
+author:
+  name: "Hikmet Güleşli"
+  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+---
+
+## Giriş
+
+React Server Components (RSC), React 18 ile birlikte sunulan ve Next.js 13+ ile popüler hale gelen bir mimari yaklaşımdır. Bu yazıda, Server Components'in ne olduğunu, avantajlarını ve nasıl kullanılacağını detaylıca inceleyeceğiz.
+
+## Server Components Nedir?
+
+Server Components, bileşenlerinizin sunucu tarafında render edilmesini sağlayan React özelliğidir. Bu sayede, büyük JavaScript bundle'larını client'a göndermek yerine, sadece gerekli HTML'i oluşturursunuz.
+
+### Temel Fark
+
+| Özellik | Server Components | Client Components |
+|---------|------------------|------------------|
+| Render | Sunucu | İstemci (tarayıcı) |
+| Bundle Boyutu | Sıfır | Dahil |
+| Interactivity | Yok | Var |
+| Data Fetching | Direct | useEffect |
+| State Management | Yok | useState, useReducer |
+
+## Avantajlar
+
+### 1. Sıfır Client Bundle Etkisi
+
+Server component'ler tarayıcıya gönderilmez. Bu, uygulamanızın başlangıç yükleme süresini önemli ölçüde azaltır.
+
+```typescript
+// Server Component - client bundle'ına eklenmez
+// Bu bileşen sadece sunucuda çalışır
+async function ProductList() {
+  // Direct veritabanı erişimi
+  const products = await db.products.findMany();
+  
+  return (
+    <ul>
+      {products.map(product => (
+        <li key={product.id}>{product.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### 2. Direct Backend Erişimi
+
+Server component'ler içinde doğrudan veritabanı, filesystem veya diğer backend kaynaklarına erişebilirsiniz.
+
+```typescript
+// Direct veritabanı sorgusu
+async function UserProfile({ userId }: { userId: string }) {
+  const user = await db.users.findUnique({
+    where: { id: userId },
+    include: { posts: true, followers: true }
+  });
+  
+  if (!user) return <NotFound />;
+  
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <p>{user.bio}</p>
+      <Stats posts={user.posts.length} followers={user.followers.length} />
+    </div>
+  );
+}
+```
+
+### 3. Otomatik Code Splitting
+
+Her route için sadece o sayfaya ait component'ler yüklenir. Kullanılmayan kodlar hiçbir zaman tarayıcıya gönderilmez.
+
+## Kullanım
+
+### Server Component Oluşturma
+
+Varsayılan olarak tüm component'ler server component'dir. Ek bir annotation gerekmez:
+
+```typescript
+// app/users/page.tsx
+// Bu bir Server Component
+export default async function UsersPage() {
+  const users = await fetchUsers();
+  
+  return (
+    <main>
+      <h1>Kullanıcılar</h1>
+      <UserList users={users} />
+    </main>
+  );
+}
+```
+
+### Client Component Oluşturma
+
+Interactivity gerektiğinde `'use client'` directive'ini kullanın:
+
+```typescript
+// components/LikeButton.tsx
+'use client';
+
+import { useState } from 'react';
+
+export function LikeButton({ initialLikes }: { initialLikes: number }) {
+  const [likes, setLikes] = useState(initialLikes);
+  
+  return (
+    <button onClick={() => setLikes(l => l + 1)}>
+      {likes} Beğeni
+    </button>
+  );
+}
+```
+
+## Composition Patterns
+
+### Server ve Client Component'leri Birleştirme
+
+Server component'ler içinde client component'leri kullanabilirsiniz, ancak tersi mümkün değildir:
+
+```typescript
+// Server Component
+async function Article({ id }: { id: string }) {
+  const article = await getArticle(id);
+  
+  return (
+    <article>
+      <h1>{article.title}</h1>
+      <p>{article.content}</p>
+      
+      {/* Client Component - prop olarak state geçmiyoruz */}
+      <LikeButton initialLikes={article.likes} />
+      
+      {/* Client Component - Server data'yı prop olarak alıyor */}
+      <CommentSection initialComments={article.comments} />
+    </article>
+  );
+}
+```
+
+### Props ile Data Transfer
+
+Server component'den client component'e data, sadece prop olarak geçilebilir. Closure'lar üzerinden state paylaşımı yapılamaz:
+
+```typescript
+// ✓ Geçerli - sadece data prop olarak
+<ClientComponent serverData={fetchedData} />
+
+// ✗ Geçersiz - fonksiyon prop olarak (closure)
+// Server component'ten gelen fonksiyonlar serialize edilemez
+<ClientComponent onUpdate={async () => { /* ... */ }} />
+```
+
+## Data Fetching Stratejileri
+
+### Parallel Fetching
+
+Server component'lerde parallel fetching kullanarak performansı artırın:
+
+```typescript
+async function Dashboard() {
+  // Paralel fetch
+  const [users, orders, revenue] = await Promise.all([
+    getUsers(),
+    getOrders(),
+    getRevenue()
+  ]);
+  
+  return (
+    <div>
+      <UserStats users={users} />
+      <OrderStats orders={orders} />
+      <RevenueStats revenue={revenue} />
+    </div>
+  );
+}
+```
+
+### Streaming
+
+Uzun yükleme süreleri için streaming kullanın:
+
+```typescript
+import { Suspense } from 'react';
+
+async function Page() {
+  return (
+    <div>
+      {/* Hemen gösterilir */}
+      <Header />
+      
+      {/* Yüklenirken fallback gösterir */}
+      <Suspense fallback={<ChartSkeleton />}>
+        <Chart />
+      </Suspense>
+      
+      <Suspense fallback={<TableSkeleton />}>
+        <DataTable />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+## Migration Stratejisi
+
+### Adım Adım Geçiş
+
+1. **Tüm bileşenleri analiz edin** - Interactivity gerektirenleri işaretleyin
+2. **Server component'leri belirleyin** - Sadece render eden, state veya effect kullanmayanlar
+3. **Client boundary'ları tanımlayın** - Interaktif bileşenleri 'use client' ile işaretleyin
+4. **Test edin** - Her değişiklikten sonra uygulamayı test edin
+
+###Dikkat Edilmesi Gerekenler
+
+> Server component'ler içinde client component'ler kullanılabilir, ancak client component'ler içinde server component'ler kullanılamaz.
+
+```typescript
+// ✗ Bu çalışmaz - Server component client içinde
+'use client';
+function ClientComponent() {
+  return <ServerChild />; // HATA!
+}
+
+// ✓ Bu çalışır - Client, server child'ı prop olarak alır
+'use client';
+function ClientComponent({ children }: { children: React.ReactNode }) {
+  return <div>{children}</div>;
+}
+```
+
+## Performance Karşılaştırması
+
+### Bundle Boyutu
+
+```
+Eski yaklaşım (tüm component'ler client):
+├── _app.js          150kb
+├── components.js    200kb
+├── utils.js         80kb
+└── Total:           ~500kb
+
+Yeni yaklaşım (server + client):
+├── _app.js          50kb (sadece client bileşenler)
+├── components.js    80kb
+└── Total:           ~130kb
+```
+
+## Sonuç
+
+React Server Components, modern web uygulamaları için güçlü bir araçtır. Doğru kullanıldığında, hem performansı artırır hem de geliştirici deneyimini iyileştirir. Önemli olan, component'lerinizi doğru kategorize etmek ve server-client sınırını bilinçli çizmektir.

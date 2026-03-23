@@ -527,6 +527,178 @@ Başvurduğum pozisyonların %40'ı referans ile geldi.
       bio: "Modern web teknolojileri ile dijital ürünler geliştiriyorum.",
     },
   },
+  "nextjs-15-ve-yeni-ozellikler": {
+    slug: "nextjs-15-ve-yeni-ozellikler",
+    title: "Next.js 15 ve Yenilikler",
+    excerpt:
+      "Next.js 15 ile gelen yeni özellikler ve geliştirme deneyimi iyileştirmeleri. React 19 desteği, gelişmiş caching ve daha fazlası.",
+    featuredImage:
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop",
+    category: "teknik",
+    tags: ["Next.js", "React", "TypeScript", "Web Geliştirme"],
+    readTime: 8,
+    publishedAt: "2026-03-15",
+    status: "published",
+    featured: false,
+    pinned: false,
+    content: `
+## Giriş
+
+Next.js 15, React 19 desteği ve birçok yeni özellik ile birlikte geliyor. Bu sürüm, geliştirici deneyimini önemli ölçüde iyileştiriyor ve performans optimizasyonları sunuyor.
+
+## React 19 Desteği
+
+Next.js 15, React 19 ile tam uyumluluk sağlıyor. Bu, geliştiricilerin en son React özelliklerinden yararlanabileceği anlamına geliyor.
+
+### Yeni React Özellikleri
+
+React 19 ile birlikte gelen en önemli özellikler:
+
+- **Actions** - Form submit ve data mutation için built-in destek
+- **use() Hook** - Promise'leri ve context'i render sırasında okuma
+- **Ref as Prop** - DOM ref'lerini doğrudan child olarak geçirme
+- **Destructuring Assignment** - Server Component'lerde prop destructuring
+
+## Geliştirici Deneyimi İyileştirmeleri
+
+### Hata Mesajları
+
+Next.js 15, hata mesajlarını daha anlaşılır ve eyleme dönüştürülebilir hale getiriyor.
+
+### Turbopack
+
+Turbopack artık production'da da varsayılan olarak kullanılıyor.
+
+## Caching Stratejisi
+
+Next.js 15, fetch istekleri için daha granüler caching kontrolü sunuyor.
+
+## Performance İyileştirmeleri
+
+Next.js 15, React 19'un smaller bundle avantajlarından yararlanıyor. Ortalama bundle boyutu %15 oranında azaldı.
+
+## Sonuç
+
+Next.js 15, hem geliştirici deneyimi hem de performans açısından önemli iyileştirmeler getiriyor.
+    `.trim(),
+    author: {
+      name: "Hikmet Güleşli",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+      title: "Full-Stack Developer",
+      bio: "Modern web teknolojileri ile dijital ürünler geliştiriyorum.",
+    },
+  },
+  "typescript-5-pratik-ipuclari": {
+    slug: "typescript-5-pratik-ipuclari",
+    title: "TypeScript 5 Pratik İpuçları",
+    excerpt:
+      "TypeScript 5 ile daha güvenli ve okunabilir kod yazmanın yolları.",
+    featuredImage:
+      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&h=630&fit=crop",
+    category: "teknik",
+    tags: ["TypeScript", "JavaScript"],
+    readTime: 10,
+    publishedAt: "2026-03-10",
+    status: "published",
+    featured: false,
+    pinned: false,
+    content: `
+## Giriş
+
+TypeScript 5, JavaScript geliştirmeyi daha güvenli ve verimli hale getiren birçok yeni özellik getiriyor.
+
+## Const Type Parameters
+
+TypeScript 5 ile birlikte gelen en önemli özelliklerden biri const type parametreleri.
+
+## Decorator'lar
+
+TypeScript 5, ECMAScript decorator proposal'sını tam olarak destekliyor.
+
+## Using Declarations
+
+Resource management için using keyword'ü ve Symbol.dispose kullanılıyor.
+
+## Pratik İpuçları
+
+### satisfies Operator
+
+satisfies operator'ü, bir değerin bir type'a uyduğunu kontrol ederken literal tiplerini korur.
+
+### Template Literal Types
+
+String manipulation için template literal types kullanılabilir.
+
+## Sonuç
+
+TypeScript 5, kod yazma deneyimini önemli ölçüde iyileştiriyor.
+    `.trim(),
+    author: {
+      name: "Hikmet Güleşli",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+      title: "Full-Stack Developer",
+      bio: "Modern web teknolojileri ile dijital ürünler geliştiriyorum.",
+    },
+  },
+  "react-server-components": {
+    slug: "react-server-components",
+    title: "React Server Components",
+    excerpt:
+      "React Server Components mimarisi ve uygulama performansına etkileri.",
+    featuredImage:
+      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&h=630&fit=crop",
+    category: "teknik",
+    tags: ["React", "Next.js", "Web Geliştirme", "Performans"],
+    readTime: 12,
+    publishedAt: "2026-03-05",
+    status: "published",
+    featured: false,
+    pinned: false,
+    content: `
+## Giriş
+
+React Server Components (RSC), React 18 ile birlikte sunulan ve Next.js 13+ ile popüler hale gelen bir mimari yaklaşımdır.
+
+## Server Components Nedir?
+
+Server Components, bileşenlerinizin sunucu tarafında render edilmesini sağlayan React özelliğidir.
+
+## Avantajlar
+
+### 1. Sıfır Client Bundle Etkisi
+
+Server component'ler tarayıcıya gönderilmez.
+
+### 2. Direct Backend Erişimi
+
+Server component'ler içinde doğrudan veritabanı erişimi mümkün.
+
+### 3. Otomatik Code Splitting
+
+Her route için sadece gerekli kod yüklenir.
+
+## Kullanım
+
+### Server Component Oluşturma
+
+Varsayılan olarak tüm component'ler server component'dir.
+
+### Client Component Oluşturma
+
+Interactivity gerektiğinde 'use client' directive'ini kullanın.
+
+## Sonuç
+
+React Server Components, modern web uygulamaları için güçlü bir araçtır.
+    `.trim(),
+    author: {
+      name: "Hikmet Güleşli",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+      title: "Full-Stack Developer",
+      bio: "Modern web teknolojileri ile dijital ürünler geliştiriyorum.",
+    },
+  },
+
 };
 
 export function getBlogDetail(slug: string): BlogDetailPost | undefined {

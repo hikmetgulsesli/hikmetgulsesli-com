@@ -1,0 +1,209 @@
+---
+title: "TypeScript 5 Pratik İpuçları"
+slug: "typescript-5-pratik-ipuclari"
+excerpt: "TypeScript 5 ile daha güvenli ve okunabilir kod yazmanın yolları. Yeni özellikler, best practices ve gerçek dünya örnekleri."
+featuredImage: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&h=630&fit=crop"
+category: "teknik"
+tags: ["TypeScript", "JavaScript", "Programlama"]
+readTime: 10
+publishedAt: "2026-03-10"
+author:
+  name: "Hikmet Güleşli"
+  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+---
+
+## Giriş
+
+TypeScript 5, JavaScript geliştirmeyi daha güvenli ve verimli hale getiren birçok yeni özellik getiriyor. Bu yazıda, günlük kod yazarken kullanabileceğiniz pratik ipuçlarını paylaşacağım.
+
+## Const Type Parameters
+
+TypeScript 5 ile birlikte gelen en önemli özelliklerden biri `const` type parametreleri. Bu özellik, fonksiyonların aldığı generic parametreleri daha dar tipte çıkarmaya yarıyor.
+
+```typescript
+// Eski yöntem - geniş tip
+function asArray<T>(value: T): T[] {
+  return [value];
+}
+
+const result = asArray("hello"); // string[]
+const num = asArray(42); // number[]
+
+// Yeni const type parameter
+function asArray<const T>(value: T): readonly T[] {
+  return [value];
+}
+
+const result = asArray("hello"); // "hello"[] (literal tip!)
+const num = asArray(42); // 42[] (literal tip!)
+```
+
+## Decorator'lar
+
+TypeScript 5, ECMAScript decorator proposal'sını tam olarak destekliyor. Bu, class ve method'lar için daha temiz bir meta-programming API'si sunuyor.
+
+```typescript
+// Decorator fonksiyonu
+function logged(target: Function, context: ClassMethodDecoratorContext) {
+  return function (...args: any[]) {
+    console.log(`Calling ${String(context.name)} with:`, args);
+    const result = target.call(this, ...args);
+    console.log(`Result:`, result);
+    return result;
+  };
+}
+
+class Calculator {
+  @logged
+  add(a: number, b: number): number {
+    return a + b;
+  }
+}
+```
+
+## Using Declarations
+
+Resource management için `using` keyword'ü ve `Symbol.dispose`, Python'daki `with` ifadesine benzer bir yapı sunuyor.
+
+```typescript
+// Custom disposeable resource
+class DatabaseConnection {
+  query(sql: string) {
+    console.log(`Executing: ${sql}`);
+  }
+  
+  [Symbol.dispose]() {
+    console.log('Connection closed');
+  }
+}
+
+function getUsers() {
+  using db = new DatabaseConnection();
+  db.query('SELECT * FROM users');
+  // db otomatik olarak burada dispose edilecek
+}
+```
+
+## TypeScript 5'te İyileştirmeler
+
+### Enum Performance
+
+Enum'lar artık daha iyi performans sunuyor. Union type'lara dönüştürüldüklerinde, gereksiz JavaScript kodu üretmiyorlar.
+
+```typescript
+// TypeScript 5 - daha optimize
+enum Status {
+  Active = "ACTIVE",
+  Inactive = "INACTIVE",
+  Pending = "PENDING"
+}
+
+// Derlendiğinde:
+const Status = {
+  Active: "ACTIVE",
+  Inactive: "INACTIVE", 
+  Pending: "PENDING"
+} as const;
+```
+
+## Pratik İpuçları
+
+### 1. satisfies Operator
+
+`satisfies` operator'ü, bir değerin bir type'a uyduğunu kontrol ederken, o değerin literal tiplerini korur.
+
+```typescript
+type Config = {
+  endpoint: string;
+  timeout: number;
+};
+
+// values literal tiplerini korur
+const values = {
+  endpoint: "https://api.example.com",
+  timeout: 5000,
+} satisfies Config;
+
+// endpoint: "https://api.example.com" (string değil literal!)
+// timeout: 5000 (number değil literal!)
+```
+
+### 2. Template Literal Types
+
+String manipulation için template literal types kullanın:
+
+```typescript
+type Direction = 'north' | 'south' | 'east' | 'west';
+type DirectionEvent = `didMove${Capitalize<Direction>}`;
+// "didMoveNorth" | "didMoveSouth" | "didMoveEast" | "didMoveWest"
+
+type HttpMethod = 'get' | 'post' | 'put' | 'delete';
+type ApiRoute = `/api/${HttpMethod}`;
+// "/api/get" | "/api/post" | "/api/put" | "/api/delete"
+```
+
+### 3. Type Guard Fonksiyonları
+
+Runtime'da tip kontrolü için type guard'lar kullanın:
+
+```typescript
+interface User {
+  type: 'user';
+  name: string;
+  email: string;
+}
+
+interface Admin {
+  type: 'admin';
+  name: string;
+  permissions: string[];
+}
+
+type Person = User | Admin;
+
+function isUser(person: Person): person is User {
+  return person.type === 'user';
+}
+
+function isAdmin(person: Person): person is Admin {
+  return person.type === 'admin';
+}
+
+// Kullanım
+function greet(person: Person) {
+  if (isUser(person)) {
+    console.log(`User: ${person.email}`);
+  } else {
+    console.log(`Admin with ${person.permissions.length} permissions`);
+  }
+}
+```
+
+### 4. Discriminated Unions
+
+Union type'ları için discriminant property kullanın:
+
+```typescript
+type LoadingState = 
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success'; data: User }
+  | { status: 'error'; error: Error };
+
+function handleState(state: LoadingState) {
+  switch (state.status) {
+    case 'idle':
+      return 'Hazır';
+    case 'loading':
+      return 'Yükleniyor...';
+    case 'success':
+      return `Merhaba ${state.data.name}`;
+    case 'error':
+      return `Hata: ${state.error.message}`;
+  }
+}
+```
+
+## Sonuç
+
+TypeScript 5, kod yazma deneyimini önemli ölçüde iyileştiren birçok özellik getiriyor. Bu ipuçlarını günlük projelerinizde kullanarak, daha type-safe ve bakımı kolay kod yazabilirsiniz.

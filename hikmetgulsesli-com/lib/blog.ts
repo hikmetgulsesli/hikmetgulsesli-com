@@ -104,6 +104,48 @@ export const allPosts: BlogPost[] = [
     featured: false,
     pinned: false,
   },
+  {
+    slug: "nextjs-15-ve-yeni-ozellikler",
+    title: "Next.js 15 ve Yenilikler",
+    excerpt:
+      "Next.js 15 ile gelen yeni özellikler ve geliştirme deneyimi iyileştirmeleri.",
+    featuredImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=450&fit=crop",
+    category: "teknik",
+    tags: ["Next.js", "React", "TypeScript"],
+    readTime: 8,
+    publishedAt: "2026-03-15",
+    status: "published",
+    featured: false,
+    pinned: false,
+  },
+  {
+    slug: "typescript-5-pratik-ipuclari",
+    title: "TypeScript 5 Pratik İpuçları",
+    excerpt:
+      "TypeScript 5 ile daha güvenli ve okunabilir kod yazmanın yolları.",
+    featuredImage: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=450&fit=crop",
+    category: "teknik",
+    tags: ["TypeScript", "JavaScript"],
+    readTime: 10,
+    publishedAt: "2026-03-10",
+    status: "published",
+    featured: false,
+    pinned: false,
+  },
+  {
+    slug: "react-server-components",
+    title: "React Server Components",
+    excerpt:
+      "React Server Components mimarisi ve uygulama performansına etkileri.",
+    featuredImage: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=450&fit=crop",
+    category: "teknik",
+    tags: ["React", "Next.js", "Web Geliştirme", "Performans"],
+    readTime: 12,
+    publishedAt: "2026-03-05",
+    status: "published",
+    featured: false,
+    pinned: false,
+  },
 ];
 
 export function filterPosts(
