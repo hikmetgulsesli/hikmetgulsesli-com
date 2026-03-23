@@ -28,19 +28,32 @@ export function ContactForm() {
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-      if (process.env.NODE_ENV !== "production") {
-        console.log("Form submitted:", data);
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error?.message || "Bir hata oluştu");
       }
 
-      addToast({ variant: "success", title: "Mesajınız gönderildi!", description: "En kısa sürede size dönüş yapacağım." });
+      addToast({
+        variant: "success",
+        title: "Mesajınız başarıyla gönderildi!",
+        description: "En kısa sürede size dönüş yapacağım.",
+      });
       reset();
     } catch (err) {
-      if (process.env.NODE_ENV !== "production") {
-        console.error("Form submission failed:", err);
-      }
-      addToast({ variant: "error", title: "Mesaj gönderilemedi", description: "Lütfen daha sonra tekrar deneyin." });
+      addToast({
+        variant: "error",
+        title: "Bir hata oluştu, lütfen tekrar deneyin",
+        description: err instanceof Error ? err.message : undefined,
+      });
     } finally {
       setIsSubmitting(false);
     }
