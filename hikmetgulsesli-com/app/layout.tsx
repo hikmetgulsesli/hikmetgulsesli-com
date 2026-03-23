@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
-import { Header } from "@/components/ui/Header";
-import { Footer } from "@/components/ui/Footer";
-import { Providers } from "@/components/Providers";
-import { PageTransition } from "@/components/ui/PageTransition";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -41,6 +37,8 @@ export const metadata: Metadata = {
     "next.js",
     "typescript",
     "portfolio",
+    "yazılım geliştirici",
+    "full-stack developer türkiye",
   ],
   authors: [{ name: "Hikmet Güleşli", url: "https://hikmetgulsesli.com" }],
   creator: "Hikmet Güleşli",
@@ -71,7 +69,7 @@ export const metadata: Metadata = {
     creator: "@hikmetgulsesli",
     title: "Hikmet Güleşli | Full-Stack Developer",
     description:
-      "Hikmet Güleşli - Full-Stack Developer, UI/UX Designer.",
+      "Hikmet Güleşli - Full-Stack Developer, UI/UX Designer. Modern web teknolojileri ile dijital ürünler geliştiriyorum.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -100,15 +98,7 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col antialiased`}
       >
-        <Providers>
-          <Header />
-          <PageTransition>
-            <main id="main-content" className="flex-grow pt-16">
-              {children}
-            </main>
-          </PageTransition>
-          <Footer />
-        </Providers>
+        {children}
       </body>
     </html>
   );
