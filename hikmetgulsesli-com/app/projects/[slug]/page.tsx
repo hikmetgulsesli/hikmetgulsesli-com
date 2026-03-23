@@ -5,6 +5,12 @@ interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export function generateStaticParams() {
+  return [
+    { slug: "vesta-dashboard" },
+  ];
+}
+
 // Sample project data - in production this would come from a CMS/database
 const projects: Record<
   string,

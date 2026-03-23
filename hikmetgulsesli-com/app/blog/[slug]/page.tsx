@@ -5,6 +5,12 @@ interface BlogPostPageProps {
   params: { slug: string };
 }
 
+export function generateStaticParams() {
+  return [
+    { slug: "building-modern-web-applications" },
+  ];
+}
+
 // Sample blog post data - in production this would come from a CMS/database
 const blogPosts: Record<
   string,
