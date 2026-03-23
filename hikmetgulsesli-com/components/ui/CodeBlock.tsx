@@ -50,7 +50,7 @@ export function CodeBlock({ code, language = "typescript", filename, className }
         {/* Copy button */}
         <button
           onClick={copyToClipboard}
-          className="flex items-center gap-2 px-3 py-1 rounded-md bg-surface-container-lowest hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-all duration-200 opacity-0 group-hover:opacity-100"
+          className="flex items-center gap-2 px-3 py-1 rounded-md bg-surface-container-lowest hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-all duration-200 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100"
           aria-label="Kodu kopyala"
         >
           {copied ? (
