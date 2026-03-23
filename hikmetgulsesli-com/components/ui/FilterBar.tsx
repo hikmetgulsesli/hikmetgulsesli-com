@@ -35,6 +35,7 @@ export function FilterBar({
               <button
                 key={category.id}
                 onClick={() => onCategoryChange(category.id)}
+                aria-pressed={activeCategory === category.id}
                 className={cn(
                   "px-4 py-2 font-label text-xs uppercase tracking-wider rounded-md transition-all duration-200",
                   activeCategory === category.id
@@ -55,6 +56,7 @@ export function FilterBar({
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Proje Ara..."
+              aria-label="Projelerde ara"
               className="w-full pl-10 pr-16 py-2 bg-surface-container border border-outline-variant/30 rounded-md font-label text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
             />
             <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
