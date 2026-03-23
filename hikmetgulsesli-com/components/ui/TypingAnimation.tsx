@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
 
 interface TypingAnimationProps {
   roles: string[];
@@ -27,15 +26,8 @@ export function TypingAnimation({
 
   useEffect(() => {
     if (roles.length === 0) return;
-
-    // Guard: clamp index if roles array changed
-    const safeIndex = currentRoleIndex >= roles.length ? 0 : currentRoleIndex;
-    if (safeIndex !== currentRoleIndex) {
-      setCurrentRoleIndex(safeIndex);
-      return;
-    }
-
-    const currentRole = roles[safeIndex];
+    
+    const currentRole = roles[currentRoleIndex];
 
     if (!isErasing) {
       if (displayedText.length < currentRole.length) {
@@ -63,7 +55,7 @@ export function TypingAnimation({
   }, [displayedText, currentRoleIndex, isErasing, roles, speed, eraseSpeed, pauseDuration]);
 
   return (
-    <span className={cn("inline-flex items-center", className)}>
+    <span className={`inline-flex items-center ${className}`}>
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
           key={displayedText + currentRoleIndex}
@@ -75,7 +67,7 @@ export function TypingAnimation({
         </motion.span>
       </AnimatePresence>
       <span
-        className={cn("ml-1 inline-block w-0.5 h-5 bg-primary animate-pulse", cursorClassName)}
+        className={`ml-1 inline-block w-0.5 h-5 bg-primary animate-pulse ${cursorClassName}`}
         aria-hidden="true"
       />
     </span>

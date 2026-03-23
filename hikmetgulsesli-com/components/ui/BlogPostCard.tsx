@@ -18,7 +18,7 @@ interface BlogPostCardProps {
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString("tr-TR", {
+  return date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -27,7 +27,7 @@ function formatDate(dateString: string): string {
 
 export function BlogPostCard({ post, className = "" }: BlogPostCardProps) {
   return (
-    <article className={cn("space-y-4 group border-l-2 border-transparent hover:border-primary transition-all duration-200 pl-4", className)}>
+    <article className={cn("space-y-4 group", className)}>
       {/* Date */}
       <div className="font-label text-xs text-secondary-fixed-dim tracking-widest uppercase">
         {formatDate(post.publishedAt)}

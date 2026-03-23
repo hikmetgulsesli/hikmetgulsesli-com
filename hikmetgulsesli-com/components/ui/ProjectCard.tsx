@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Github, ExternalLink } from "lucide-react";
@@ -9,6 +11,7 @@ export interface Project {
   shortDescription: string;
   thumbnail: string;
   techStack: string[];
+  categories?: string[];
   githubUrl?: string;
   liveUrl?: string;
 }
@@ -22,13 +25,15 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
   return (
     <div
       className={cn(
-        "group bg-surface-container overflow-hidden border border-transparent hover:border-primary transition-all duration-200 hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:-translate-y-1",
+        "group bg-surface-container border border-outline-variant/30 rounded-xl overflow-hidden cursor-pointer",
+        "transition-all duration-200",
+        "hover:border-primary hover:shadow-[0_0_20px_rgba(78,222,163,0.3)] hover:-translate-y-0.5",
         className
       )}
     >
-      {/* Thumbnail - links to project detail */}
       <Link href={`/projects/${project.slug}`} className="block">
-        <div className="aspect-video w-full overflow-hidden bg-slate-900 relative">
+        {/* Thumbnail */}
+        <div className="aspect-video w-full overflow-hidden bg-surface-container-high relative">
           <Image
             src={project.thumbnail}
             alt={project.title}
@@ -47,45 +52,47 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
             {project.shortDescription}
           </p>
 
-          {/* Tech Stack */}
+          {/* Tech Stack Pills */}
           <div className="flex flex-wrap gap-2 pt-2">
-            {project.techStack.slice(0, 3).map((tech) => (
+            {project.techStack.slice(0, 4).map((tech) => (
               <span
                 key={tech}
-                className="px-2 py-1 bg-surface-container-lowest font-label text-[10px] text-secondary uppercase"
+                className="px-3 py-1 bg-surface-container-lowest rounded-full font-label text-[10px] text-on-surface-variant uppercase tracking-wider"
               >
                 {tech}
               </span>
             ))}
           </div>
+
+          {/* Links */}
+          <div className="flex items-center gap-4 pt-2 border-t border-outline-variant/20">
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex items-center gap-2 text-xs text-on-surface-variant hover:text-primary transition-colors font-label group/link"
+              >
+                <Github className="w-4 h-4 group-hover/link:scale-110 transition-transform" />
+                <span>GITHUB</span>
+              </a>
+            )}
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex items-center gap-2 text-xs text-on-surface-variant hover:text-primary transition-colors font-label group/link ml-auto"
+              >
+                <span>DEMO</span>
+                <ExternalLink className="w-4 h-4 group-hover/link:scale-110 transition-transform" />
+              </a>
+            )}
+          </div>
         </div>
       </Link>
-
-      {/* Links - outside the main Link to avoid nested anchors */}
-      <div className="flex items-center gap-4 px-6 pb-6">
-        {project.githubUrl && (
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-label"
-          >
-            <Github className="w-4 h-4" />
-            <span>GITHUB</span>
-          </a>
-        )}
-        {project.liveUrl && (
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-label"
-          >
-            <ExternalLink className="w-4 h-4" />
-            <span>DEMO</span>
-          </a>
-        )}
-      </div>
     </div>
   );
 }
