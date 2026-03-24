@@ -1,9 +1,7 @@
-import { HomeScreen } from "@/components/screens/home-screen";
-import { getFeaturedProjects, author } from "@/lib/data";
+import { ContactScreen } from "@/components/screens/contact-screen";
+import { author } from "@/lib/data";
 
-export default function HomePage() {
-  const featuredProjects = getFeaturedProjects();
-
+export default function ContactPage() {
   const socialLinks = [
     {
       label: "GITHUB",
@@ -22,5 +20,5 @@ export default function HomePage() {
     },
   ];
 
-  return <HomeScreen featuredProjects={featuredProjects} socialLinks={socialLinks} />;
+  return <ContactScreen socialLinks={socialLinks} />;
 }
