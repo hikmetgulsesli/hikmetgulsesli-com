@@ -124,7 +124,7 @@ export const projects: Project[] = [
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuF6xP1qI4rT7yN2lV9oB6zO0cK5pP8uU3kQ4jL7mA9dF1eG2hI3bJ5cK6d",
     imageAlt: "MobileTek - Job Application Tracker",
-    category: "MOBİL",
+    category: "MOBIL",
     tags: ["React Native", "TypeScript", "Firebase", "Redux"],
     liveUrl: "https://play.google.com/store/apps/details?id=com.mobiletek",
     featured: false,

@@ -59,9 +59,9 @@ describe("Type Definitions", () => {
     });
 
     it("should enforce project categories", () => {
-      const categories: ProjectCategory[] = ["WEB", "MOBİL", "AÇIK KAYNAK", "FREELANCE"];
+      const categories: ProjectCategory[] = ["WEB", "MOBIL", "AÇIK KAYNAK", "FREELANCE"];
       categories.forEach((cat) => {
-        expect(["WEB", "MOBİL", "AÇIK KAYNAK", "FREELANCE"]).toContain(cat);
+        expect(["WEB", "MOBIL", "AÇIK KAYNAK", "FREELANCE"]).toContain(cat);
       });
     });
   });
@@ -164,7 +164,7 @@ describe("Data Module", () => {
 
   it("projects should have valid categories", async () => {
     const { projects } = await import("@/lib/data");
-    const validCategories = ["WEB", "MOBİL", "AÇIK KAYNAK", "FREELANCE"];
+    const validCategories = ["WEB", "MOBIL", "AÇIK KAYNAK", "FREELANCE"];
 
     projects.forEach((project) => {
       expect(validCategories).toContain(project.category);
