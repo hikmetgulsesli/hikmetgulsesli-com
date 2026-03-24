@@ -1,273 +1,5 @@
 [
   {
-    "screenId": "0da9a09fb1e44e77824f0b81fe565023",
-    "screenTitle": "Ana Sayfa - Hikmet Güleşli",
-    "deviceType": "DESKTOP",
-    "elements": [
-      {
-        "type": "link",
-        "label": "PROJECTS",
-        "href": "#",
-        "line": 100
-      },
-      {
-        "type": "link",
-        "label": "STACK",
-        "href": "#",
-        "line": 101
-      },
-      {
-        "type": "link",
-        "label": "ARCHIVE",
-        "href": "#",
-        "line": 102
-      },
-      {
-        "type": "link",
-        "label": "CONTACT",
-        "href": "#",
-        "line": 103
-      },
-      {
-        "type": "link",
-        "label": "terminal GITHUB",
-        "href": "#",
-        "line": 143
-      },
-      {
-        "type": "link",
-        "label": "share LINKEDIN",
-        "href": "#",
-        "line": 146
-      },
-      {
-        "type": "link",
-        "label": "alternate_email X_SOCIAL",
-        "href": "#",
-        "line": 149
-      },
-      {
-        "type": "link",
-        "label": "Tümünü Gör →",
-        "href": "#",
-        "line": 166
-      },
-      {
-        "type": "link",
-        "label": "GITHUB",
-        "href": "#",
-        "line": 275
-      },
-      {
-        "type": "link",
-        "label": "LINKEDIN",
-        "href": "#",
-        "line": 276
-      },
-      {
-        "type": "link",
-        "label": "SOURCE_CODE",
-        "href": "#",
-        "line": 277
-      },
-      {
-        "type": "button",
-        "label": "DOWNLOAD_CV",
-        "line": 105
-      },
-      {
-        "type": "button",
-        "label": "// Hakkımda Bilgi Al",
-        "line": 134
-      },
-      {
-        "type": "button",
-        "label": "&gt; Projeleri Gör",
-        "line": 137
-      },
-      {
-        "type": "button",
-        "label": "mail İletişime Geç",
-        "line": 260
-      },
-      {
-        "type": "button",
-        "label": "[icon: terminal]",
-        "line": 144
-      },
-      {
-        "type": "button",
-        "label": "[icon: share]",
-        "line": 147
-      },
-      {
-        "type": "button",
-        "label": "[icon: alternate_email]",
-        "line": 150
-      },
-      {
-        "type": "button",
-        "label": "[icon: expand_more]",
-        "line": 156
-      },
-      {
-        "type": "button",
-        "label": "[icon: schedule]",
-        "line": 229
-      },
-      {
-        "type": "button",
-        "label": "[icon: schedule]",
-        "line": 238
-      },
-      {
-        "type": "button",
-        "label": "[icon: schedule]",
-        "line": 247
-      },
-      {
-        "type": "button",
-        "label": "[icon: mail]",
-        "line": 261
-      }
-    ],
-    "navigation": [
-      {
-        "type": "link",
-        "label": "PROJECTS",
-        "href": "#",
-        "line": 100
-      },
-      {
-        "type": "link",
-        "label": "STACK",
-        "href": "#",
-        "line": 101
-      },
-      {
-        "type": "link",
-        "label": "ARCHIVE",
-        "href": "#",
-        "line": 102
-      },
-      {
-        "type": "link",
-        "label": "CONTACT",
-        "href": "#",
-        "line": 103
-      },
-      {
-        "type": "link",
-        "label": "terminal GITHUB",
-        "href": "#",
-        "line": 143
-      },
-      {
-        "type": "link",
-        "label": "share LINKEDIN",
-        "href": "#",
-        "line": 146
-      },
-      {
-        "type": "link",
-        "label": "alternate_email X_SOCIAL",
-        "href": "#",
-        "line": 149
-      },
-      {
-        "type": "link",
-        "label": "Tümünü Gör →",
-        "href": "#",
-        "line": 166
-      },
-      {
-        "type": "link",
-        "label": "GITHUB",
-        "href": "#",
-        "line": 275
-      },
-      {
-        "type": "link",
-        "label": "LINKEDIN",
-        "href": "#",
-        "line": 276
-      },
-      {
-        "type": "link",
-        "label": "SOURCE_CODE",
-        "href": "#",
-        "line": 277
-      }
-    ],
-    "buttons": [
-      {
-        "type": "button",
-        "label": "DOWNLOAD_CV",
-        "line": 105
-      },
-      {
-        "type": "button",
-        "label": "// Hakkımda Bilgi Al",
-        "line": 134
-      },
-      {
-        "type": "button",
-        "label": "&gt; Projeleri Gör",
-        "line": 137
-      },
-      {
-        "type": "button",
-        "label": "mail İletişime Geç",
-        "line": 260
-      },
-      {
-        "type": "button",
-        "label": "[icon: terminal]",
-        "line": 144
-      },
-      {
-        "type": "button",
-        "label": "[icon: share]",
-        "line": 147
-      },
-      {
-        "type": "button",
-        "label": "[icon: alternate_email]",
-        "line": 150
-      },
-      {
-        "type": "button",
-        "label": "[icon: expand_more]",
-        "line": 156
-      },
-      {
-        "type": "button",
-        "label": "[icon: schedule]",
-        "line": 229
-      },
-      {
-        "type": "button",
-        "label": "[icon: schedule]",
-        "line": 238
-      },
-      {
-        "type": "button",
-        "label": "[icon: schedule]",
-        "line": 247
-      },
-      {
-        "type": "button",
-        "label": "[icon: mail]",
-        "line": 261
-      }
-    ],
-    "inputs": [],
-    "hardcodedData": [],
-    "totalInteractive": 23,
-    "requiresRouter": false,
-    "requiresDragDrop": false
-  },
-  {
     "screenId": "51b4e4fe81134726a68bfde925028f6d",
     "screenTitle": "Projeler - Hikmet Güleşli",
     "deviceType": "DESKTOP",
@@ -2149,6 +1881,274 @@
     ],
     "hardcodedData": [],
     "totalInteractive": 30,
+    "requiresRouter": false,
+    "requiresDragDrop": false
+  },
+  {
+    "screenId": "0da9a09fb1e44e77824f0b81fe565023",
+    "screenTitle": "Ana Sayfa",
+    "deviceType": "DESKTOP",
+    "elements": [
+      {
+        "type": "link",
+        "label": "PROJECTS",
+        "href": "#",
+        "line": 100
+      },
+      {
+        "type": "link",
+        "label": "STACK",
+        "href": "#",
+        "line": 101
+      },
+      {
+        "type": "link",
+        "label": "ARCHIVE",
+        "href": "#",
+        "line": 102
+      },
+      {
+        "type": "link",
+        "label": "CONTACT",
+        "href": "#",
+        "line": 103
+      },
+      {
+        "type": "link",
+        "label": "terminal GITHUB",
+        "href": "#",
+        "line": 143
+      },
+      {
+        "type": "link",
+        "label": "share LINKEDIN",
+        "href": "#",
+        "line": 146
+      },
+      {
+        "type": "link",
+        "label": "alternate_email X_SOCIAL",
+        "href": "#",
+        "line": 149
+      },
+      {
+        "type": "link",
+        "label": "Tümünü Gör →",
+        "href": "#",
+        "line": 166
+      },
+      {
+        "type": "link",
+        "label": "GITHUB",
+        "href": "#",
+        "line": 275
+      },
+      {
+        "type": "link",
+        "label": "LINKEDIN",
+        "href": "#",
+        "line": 276
+      },
+      {
+        "type": "link",
+        "label": "SOURCE_CODE",
+        "href": "#",
+        "line": 277
+      },
+      {
+        "type": "button",
+        "label": "DOWNLOAD_CV",
+        "line": 105
+      },
+      {
+        "type": "button",
+        "label": "// Hakkımda Bilgi Al",
+        "line": 134
+      },
+      {
+        "type": "button",
+        "label": "&gt; Projeleri Gör",
+        "line": 137
+      },
+      {
+        "type": "button",
+        "label": "mail İletişime Geç",
+        "line": 260
+      },
+      {
+        "type": "button",
+        "label": "[icon: terminal]",
+        "line": 144
+      },
+      {
+        "type": "button",
+        "label": "[icon: share]",
+        "line": 147
+      },
+      {
+        "type": "button",
+        "label": "[icon: alternate_email]",
+        "line": 150
+      },
+      {
+        "type": "button",
+        "label": "[icon: expand_more]",
+        "line": 156
+      },
+      {
+        "type": "button",
+        "label": "[icon: schedule]",
+        "line": 229
+      },
+      {
+        "type": "button",
+        "label": "[icon: schedule]",
+        "line": 238
+      },
+      {
+        "type": "button",
+        "label": "[icon: schedule]",
+        "line": 247
+      },
+      {
+        "type": "button",
+        "label": "[icon: mail]",
+        "line": 261
+      }
+    ],
+    "navigation": [
+      {
+        "type": "link",
+        "label": "PROJECTS",
+        "href": "#",
+        "line": 100
+      },
+      {
+        "type": "link",
+        "label": "STACK",
+        "href": "#",
+        "line": 101
+      },
+      {
+        "type": "link",
+        "label": "ARCHIVE",
+        "href": "#",
+        "line": 102
+      },
+      {
+        "type": "link",
+        "label": "CONTACT",
+        "href": "#",
+        "line": 103
+      },
+      {
+        "type": "link",
+        "label": "terminal GITHUB",
+        "href": "#",
+        "line": 143
+      },
+      {
+        "type": "link",
+        "label": "share LINKEDIN",
+        "href": "#",
+        "line": 146
+      },
+      {
+        "type": "link",
+        "label": "alternate_email X_SOCIAL",
+        "href": "#",
+        "line": 149
+      },
+      {
+        "type": "link",
+        "label": "Tümünü Gör →",
+        "href": "#",
+        "line": 166
+      },
+      {
+        "type": "link",
+        "label": "GITHUB",
+        "href": "#",
+        "line": 275
+      },
+      {
+        "type": "link",
+        "label": "LINKEDIN",
+        "href": "#",
+        "line": 276
+      },
+      {
+        "type": "link",
+        "label": "SOURCE_CODE",
+        "href": "#",
+        "line": 277
+      }
+    ],
+    "buttons": [
+      {
+        "type": "button",
+        "label": "DOWNLOAD_CV",
+        "line": 105
+      },
+      {
+        "type": "button",
+        "label": "// Hakkımda Bilgi Al",
+        "line": 134
+      },
+      {
+        "type": "button",
+        "label": "&gt; Projeleri Gör",
+        "line": 137
+      },
+      {
+        "type": "button",
+        "label": "mail İletişime Geç",
+        "line": 260
+      },
+      {
+        "type": "button",
+        "label": "[icon: terminal]",
+        "line": 144
+      },
+      {
+        "type": "button",
+        "label": "[icon: share]",
+        "line": 147
+      },
+      {
+        "type": "button",
+        "label": "[icon: alternate_email]",
+        "line": 150
+      },
+      {
+        "type": "button",
+        "label": "[icon: expand_more]",
+        "line": 156
+      },
+      {
+        "type": "button",
+        "label": "[icon: schedule]",
+        "line": 229
+      },
+      {
+        "type": "button",
+        "label": "[icon: schedule]",
+        "line": 238
+      },
+      {
+        "type": "button",
+        "label": "[icon: schedule]",
+        "line": 247
+      },
+      {
+        "type": "button",
+        "label": "[icon: mail]",
+        "line": 261
+      }
+    ],
+    "inputs": [],
+    "hardcodedData": [],
+    "totalInteractive": 23,
     "requiresRouter": false,
     "requiresDragDrop": false
   }
