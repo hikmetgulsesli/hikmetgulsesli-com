@@ -1,8 +1,8 @@
-import { HomeScreen } from "@/components/screens/home-screen";
-import { getFeaturedProjects, author } from "@/lib/data";
+import { BlogScreen } from "@/components/screens/blog-screen";
+import { getPublishedBlogPosts, author } from "@/lib/data";
 
-export default function HomePage() {
-  const featuredProjects = getFeaturedProjects();
+export default function BlogPage() {
+  const posts = getPublishedBlogPosts();
 
   const socialLinks = [
     {
@@ -22,5 +22,5 @@ export default function HomePage() {
     },
   ];
 
-  return <HomeScreen featuredProjects={featuredProjects} socialLinks={socialLinks} />;
+  return <BlogScreen posts={posts} socialLinks={socialLinks} />;
 }
